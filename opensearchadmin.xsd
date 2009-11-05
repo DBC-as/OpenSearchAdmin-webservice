@@ -2,10 +2,10 @@
 <!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:osa="http://oss.dbc.dk/ns/opensearchadmin" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" targetNamespace="http://oss.dbc.dk/ns/opensearchadmin" elementFormDefault="qualified">
 	<xs:annotation>
-		<xs:documentation xml:lang="eng">Open Search Administrative Service</xs:documentation>
-		<xs:documentation xml:lang="eng">This XML Schema describes the data and structure of data of the OpenSearch Admin Service.</xs:documentation>
-		<xs:documentation xml:lang="eng">This file is part of OpenSearch.
-Copyright © 2009, Dansk Bibliotekscenter a/s,  Tempovej 7-11, DK-2750 Ballerup, Denmark. CVR: 15149043
+		<xs:documentation xml:lang="en">Open Search Administrative Service</xs:documentation>
+		<xs:documentation xml:lang="en">This XML Schema describes the data and structure of data of the OpenSearch Admin Service.</xs:documentation>
+		<xs:documentation xml:lang="en">This file is part of OpenSearch.
+Copyright 2009, Dansk Bibliotekscenter a/s,  Tempovej 7-11, DK-2750 Ballerup, Denmark. CVR: 15149043
 
 OpenSearch is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -16,7 +16,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="http://biblstandard.dk/abm/schemas/dkabm_2009-08-20.xsd"/>
 	<xs:element name="createObjectRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Create object request. For creation of new data in the object respository.</xs:documentation>
+			<xs:documentation xml:lang="en">Create object request. For creation of new data in the object respository.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -32,7 +32,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="createObjectResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Create object response.</xs:documentation>
+			<xs:documentation xml:lang="en">Create object response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -46,7 +46,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="copyObjectRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Copy object request. Creates a copy of the object in the object repository and adds it to submitters collection.</xs:documentation>
+			<xs:documentation xml:lang="en">Copy object request. Creates a copy of the object in the object repository and adds it to submitters collection.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -59,7 +59,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="copyObjectResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Copy object response.</xs:documentation>
+			<xs:documentation xml:lang="en">Copy object response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -73,7 +73,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="updateObjectRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Update object request. For updating data in the object respository. Creates a copy of the object in the object repository with local changes, and adds it to submitters collection.</xs:documentation>
+			<xs:documentation xml:lang="en">Update object request. For updating data in the object respository. Creates a copy of the object in the object repository with local changes, and adds it to submitters collection.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -90,7 +90,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="updateObjectResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Create object response.</xs:documentation>
+			<xs:documentation xml:lang="en">Create object response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -104,7 +104,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="deleteObjectRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Delete object request.</xs:documentation>
+			<xs:documentation xml:lang="en">Delete object request.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -116,7 +116,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="deleteObjectResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Delete object response.</xs:documentation>
+			<xs:documentation xml:lang="en">Delete object response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -127,7 +127,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="createRelationRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Create relation request.</xs:documentation>
+			<xs:documentation xml:lang="en">Create relation request.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -141,7 +141,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="createRelationResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Create relation response.</xs:documentation>
+			<xs:documentation xml:lang="en">Create relation response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -152,7 +152,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="deleteRelationRequest">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Delete relation request.</xs:documentation>
+			<xs:documentation xml:lang="en">Delete relation request.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -166,7 +166,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="deleteRelationResponse">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Delete relation response.</xs:documentation>
+			<xs:documentation xml:lang="en">Delete relation response.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice>
@@ -182,17 +182,17 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="error" type="osa:errorType">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Error message</xs:documentation>
+			<xs:documentation xml:lang="en">Error message</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="localIdentifier" type="xs:anyURI">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Local identifier of data.</xs:documentation>
+			<xs:documentation xml:lang="en">Local identifier of data.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="objectIdentifier" type="xs:anyURI">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Identifier of an object in the object repository.</xs:documentation>
+			<xs:documentation xml:lang="en">Identifier of an object in the object repository.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="outputType" type="osa:outputTypeType">
@@ -202,22 +202,22 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="relation" type="osa:relationType">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">The type of relation of this specific relation.</xs:documentation>
+			<xs:documentation xml:lang="en">The type of relation of this specific relation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="relationObject" type="xs:anyURI">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Identifier of the object that the relation points to.</xs:documentation>
+			<xs:documentation xml:lang="en">Identifier of the object that the relation points to.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="relationSubject" type="xs:anyURI">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Identifier of the object that has/is to have the relation.</xs:documentation>
+			<xs:documentation xml:lang="en">Identifier of the object that has/is to have the relation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="theme">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">A theme that relates objects in the object repository in a thematic way.</xs:documentation>
+			<xs:documentation xml:lang="en">A theme that relates objects in the object repository in a thematic way.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
@@ -228,12 +228,12 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:element>
 	<xs:element name="themeIdentifier" type="xs:string">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">local identifier of a theme.</xs:documentation>
+			<xs:documentation xml:lang="en">local identifier of a theme.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="themeName" type="xs:string">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">Name describing a theme.</xs:documentation>
+			<xs:documentation xml:lang="en">Name describing a theme.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="status" type="osa:statusType"/>
@@ -248,7 +248,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	</xs:simpleType>
 	<xs:simpleType name="outputTypeType">
 		<xs:annotation>
-			<xs:documentation xml:lang="eng">The types of output that can be returned by the service.</xs:documentation>
+			<xs:documentation xml:lang="en">The types of output that can be returned by the service.</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="xml"/>
