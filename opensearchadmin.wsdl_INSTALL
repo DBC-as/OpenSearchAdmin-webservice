@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:osa="http://oss.dbc.dk/ns/opensearchadmin" xmlns:osaw="http://oss.dbc.dk/ns/opensearchadmin_wsdl" targetNamespace="http://oss.dbc.dk/ns/opensearchadmin_wsdl" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:documentation>This file is part of OpenSearch.
+Copyright © 2009, Dansk Bibliotekscenter a/s,  Tempovej 7-11, DK-2750 Ballerup, Denmark. CVR: 15149043
+
+OpenSearch is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+OpenSearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with OpenSearch.  If not, see http://www.gnu.org/licenses</wsdl:documentation>
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified">
+			<xs:import schemaLocation="opensearchadmin.xsd" namespace="http://oss.dbc.dk/ns/opensearchadmin"/>
+			<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="http://biblstandard.dk/abm/schemas/dkabm_2009-08-20.xsd"/>
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message name="createObjectRequest">
+		<wsdl:part name="body" element="osa:createObjectRequest"/>
+	</wsdl:message>
+	<wsdl:message name="createObjectResponse">
+		<wsdl:part name="body" element="osa:createObjectResponse"/>
+	</wsdl:message>
+	<wsdl:message name="copyObjectRequest">
+		<wsdl:part name="body" element="osa:copyObjectRequest"/>
+	</wsdl:message>
+	<wsdl:message name="copyObjectResponse">
+		<wsdl:part name="body" element="osa:copyObjectResponse"/>
+	</wsdl:message>
+	<wsdl:message name="updateObjectRequest">
+		<wsdl:part name="body" element="osa:updateObjectRequest"/>
+	</wsdl:message>
+	<wsdl:message name="updateObjectResponse">
+		<wsdl:part name="body" element="osa:updateObjectResponse"/>
+	</wsdl:message>
+	<wsdl:message name="deleteObjectRequest">
+		<wsdl:part name="body" element="osa:deleteObjectRequest"/>
+	</wsdl:message>
+	<wsdl:message name="deleteObjectResponse">
+		<wsdl:part name="body" element="osa:deleteObjectResponse"/>
+	</wsdl:message>
+	<wsdl:message name="createRelationRequest">
+		<wsdl:part name="body" element="osa:createRelationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="createRelationResponse">
+		<wsdl:part name="body" element="osa:createRelationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="deleteRelationRequest">
+		<wsdl:part name="body" element="osa:deleteRelationRequest"/>
+	</wsdl:message>
+	<wsdl:message name="deleteRelationResponse">
+		<wsdl:part name="body" element="osa:deleteRelationResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="createObjectServicePortType">
+		<wsdl:operation name="createObject">
+			<wsdl:input message="osaw:createObjectRequest"/>
+			<wsdl:output message="osaw:createObjectResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="copyObjectServicePortType">
+		<wsdl:operation name="copyObject">
+			<wsdl:input message="osaw:copyObjectRequest"/>
+			<wsdl:output message="osaw:copyObjectResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="updateObjectServicePortType">
+		<wsdl:operation name="updateObject">
+			<wsdl:input message="osaw:updateObjectRequest"/>
+			<wsdl:output message="osaw:updateObjectResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="deleteObjectServicePortType">
+		<wsdl:operation name="deleteObject">
+			<wsdl:input message="osaw:deleteObjectRequest"/>
+			<wsdl:output message="osaw:deleteObjectResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="createRelationServicePortType">
+		<wsdl:operation name="createRelation">
+			<wsdl:input message="osaw:createRelationRequest"/>
+			<wsdl:output message="osaw:createRelationResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:portType name="deleteRelationServicePortType">
+		<wsdl:operation name="deleteRelation">
+			<wsdl:input message="osaw:deleteRelationRequest"/>
+			<wsdl:output message="osaw:deleteRelationResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="createObjectServiceSoapBinding" type="osaw:createObjectServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createObject">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="createObjectRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="createObjectResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="copyObjectServiceSoapBinding" type="osaw:copyObjectServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="copyObject">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="copyObjectRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="copyObjectResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="updateObjectServiceSoapBinding" type="osaw:updateObjectServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="updateObject">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="updateObjectRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="updateObjectResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="deleteObjectServiceSoapBinding" type="osaw:deleteObjectServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="deleteObject">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="deleteObjectRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="deleteObjectResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="createRelationServiceSoapBinding" type="osaw:createRelationServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="createRelation">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="createRelationRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="createRelationtResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:binding name="deleteRelationServiceSoapBinding" type="osaw:deleteRelationServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="deleteRelation">
+			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<wsdl:input name="deleteRelationRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="deleteRelationResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="openSearchAdmin">
+		<wsdl:port name="createObjectServicePortType" binding="osaw:createObjectServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+		<wsdl:port name="copyObjectServicePortType" binding="osaw:copyObjectServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+		<wsdl:port name="updateObjectServicePortType" binding="osaw:updateObjectServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+		<wsdl:port name="deleteObjectServicePortType" binding="osaw:deleteObjectServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+		<wsdl:port name="createRelationServicePortType" binding="osaw:createRelationServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+		<wsdl:port name="deleteRelationServicePortType" binding="osaw:deleteRelationServiceSoapBinding">
+			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:osa="http://oss.dbc.dk/ns/opensearchadmin" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" targetNamespace="http://oss.dbc.dk/ns/opensearchadmin" elementFormDefault="qualified">
+	<xs:annotation>
+		<xs:documentation xml:lang="eng">Open Search Administrative Service</xs:documentation>
+		<xs:documentation xml:lang="eng">This XML Schema describes the data and structure of data of the OpenSearch Admin Service.</xs:documentation>
+		<xs:documentation xml:lang="eng">This file is part of OpenSearch.
+Copyright © 2009, Dansk Bibliotekscenter a/s,  Tempovej 7-11, DK-2750 Ballerup, Denmark. CVR: 15149043
+
+OpenSearch is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+OpenSearch is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with OpenSearch.  If not, see http://www.gnu.org/licenses/</xs:documentation>
+	</xs:annotation>
+	<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="http://biblstandard.dk/abm/schemas/dkabm_2009-08-20.xsd"/>
+	<xs:element name="createObjectRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Create object request. For creation of new data in the object respository.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:localIdentifier"/>
+				<xs:choice>
+					<xs:element ref="dkabm:record"/>
+					<xs:element ref="osa:theme"/>
+				</xs:choice>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createObjectResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Create object response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="osa:status"/>
+					<xs:element ref="osa:objectIdentifier"/>
+				</xs:sequence>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="copyObjectRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Copy object request. Creates a copy of the object in the object repository and adds it to submitters collection.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:localIdentifier"/>
+				<xs:element ref="osa:objectIdentifier"/>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="copyObjectResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Copy object response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="osa:status"/>
+					<xs:element ref="osa:objectIdentifier"/>
+				</xs:sequence>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="updateObjectRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Update object request. For updating data in the object respository. Creates a copy of the object in the object repository with local changes, and adds it to submitters collection.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:localIdentifier"/>
+				<xs:element ref="osa:objectIdentifier"/>
+				<xs:choice>
+					<xs:element ref="dkabm:record"/>
+					<xs:element ref="osa:theme"/>
+				</xs:choice>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="updateObjectResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Create object response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="osa:status"/>
+					<xs:element ref="osa:objectIdentifier"/>
+				</xs:sequence>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteObjectRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Delete object request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:objectIdentifier"/>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteObjectResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Delete object response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="osa:status"/>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createRelationRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Create relation request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:relationSubject"/>
+				<xs:element ref="osa:relation"/>
+				<xs:element ref="osa:relationObject"/>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="createRelationResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Create relation response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="osa:status"/>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteRelationRequest">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Delete relation request.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:relationSubject"/>
+				<xs:element ref="osa:relation"/>
+				<xs:element ref="osa:relationObject"/>
+				<xs:element ref="osa:callback" minOccurs="0"/>
+				<xs:element ref="osa:outputType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="deleteRelationResponse">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Delete relation response.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="osa:status"/>
+				<xs:element ref="osa:error"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="callback" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">If outputType=json.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="error" type="osa:errorType">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Error message</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="localIdentifier" type="xs:anyURI">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Local identifier of data.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="objectIdentifier" type="xs:anyURI">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Identifier of an object in the object repository.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="outputType" type="osa:outputTypeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">E.g. xml, json or php.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="relation" type="osa:relationType">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">The type of relation of this specific relation.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="relationObject" type="xs:anyURI">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Identifier of the object that the relation points to.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="relationSubject" type="xs:anyURI">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Identifier of the object that has/is to have the relation.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="theme">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">A theme that relates objects in the object repository in a thematic way.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:themeIdentifier"/>
+				<xs:element ref="osa:themeName"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="themeIdentifier" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">local identifier of a theme.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="themeName" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">Name describing a theme.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="status" type="osa:statusType"/>
+	<xs:simpleType name="errorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="service_unavailable"/>
+			<xs:enumeration value="error_in_request"/>
+			<xs:enumeration value="operation_not_allowed_on_object"/>
+			<xs:enumeration value="relation_cannot_be_created"/>
+			<xs:enumeration value="relation_cannot_be_deleted"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="outputTypeType">
+		<xs:annotation>
+			<xs:documentation xml:lang="eng">The types of output that can be returned by the service.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="xml"/>
+			<xs:enumeration value="json"/>
+			<xs:enumeration value="php"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="relationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="rev:hasReview"/>
+			<xs:enumeration value="fedora:isMemberOfCollection"/>
+			<xs:enumeration value="oss:isMemberOfTheme"/>
+			<xs:enumeration value="oss:hasCover"/>
+			<xs:enumeration value="oss:isMemberOfWork"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="statusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="object_created"/>
+			<xs:enumeration value="object_copied"/>
+			<xs:enumeration value="object_updated"/>
+			<xs:enumeration value="object_deleted"/>
+			<xs:enumeration value="relation_created"/>
+			<xs:enumeration value="relation_deleted"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
