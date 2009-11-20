@@ -244,6 +244,13 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:enumeration value="operation_not_allowed_on_object"/>
 			<xs:enumeration value="relation_cannot_be_created"/>
 			<xs:enumeration value="relation_cannot_be_deleted"/>
+			<xs:enumeration value="relation_not_found"/>
+			<xs:enumeration value="unknown_relationSubject"/>
+			<xs:enumeration value="unknown_relationObject"/>
+			<xs:enumeration value="unknown_relation"/>
+			<xs:enumeration value="error_reaching_fedora"/>
+			<xs:enumeration value="error_parsing_fedora_result"/>
+			<xs:enumeration value="relation_cannot_be_deleted"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="outputTypeType">
