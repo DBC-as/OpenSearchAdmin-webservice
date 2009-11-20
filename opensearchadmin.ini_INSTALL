@@ -1,0 +1,117 @@
+; Inifile for opensearchadmin
+
+[setup]
+version = 0.1
+
+
+; wsdl for service
+wsdl = opensearchadmin.wsdl
+
+; validate
+;validate[request] = opensearchadmin.xsd
+;validate[response] = opensearchadmin.xsd
+
+; soapActions and their corresponding request structure
+; Can be found in the wsdl but is stated here for convenience
+soapAction[createObject] = createObjectRequest
+soapAction[copyObject] = copyObjectRequest
+soapAction[updateObject] = updateObjectRequest
+soapAction[deleteObject] = deleteObjectRequest
+soapAction[createRelation] = createRelationRequest
+soapAction[deleteRelation] = deleteRelationRequest
+
+; prefixes and namespaces
+xmlns[NONE] = http://oss.dbc.dk/ns/opensearchadmin
+
+; fedora urls
+fedora_get = http://gufa.dbc.dk:8080/fedora/get/%s
+fedora_get_rels_ext = http://gufa.dbc.dk:8080/fedora/get/%s/RELS-EXT
+fedora_API_M = http://gufa.dbc.dk:8080/fedora/services/management
+fedora_user = fedorauser
+fedora_passwd = fedorapasswd
+
+; xml
+xml_create_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;><soapenv:Body><typ:addRelationship xmlns:typ=&quot;http://www.fedora.info/definitions/1/0/types/&quot;><pid>%s</pid><relationship>%s</relationship><object>%s</object><isLiteral>true</isLiteral><datatype xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:nil=&quot;true&quot;/></typ:addRelationship></soapenv:Body></soapenv:Envelope>
+xml_delete_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;><soapenv:Body><typ:purgeRelationship xmlns:typ=&quot;http://www.fedora.info/definitions/1/0/types/&quot;><pid>%s</pid><relationship>%s</relationship><object>%s</object><isLiteral>true</isLiteral><datatype xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:nil=&quot;true&quot;/></typ:purgeRelationship></soapenv:Body></soapenv:Envelope>
+
+
+
+; path to xml-examples
+xmldir = ./xml
+
+; logfile for verbose output
+logfile = /tmp/some_log_file
+
+; set verboselevel
+;   WARNING - simple warnings
+;   ERROR   - errors in response
+;   FATAL   - major errors
+;   STAT    - Statístical logging
+;   TIMER   - timer logging
+;   TRACE   - program trace
+;   DEBUG   - debugging info
+;   Z3959   - calls to z3950 services
+;   OCI     - oracle
+verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
+
+relation[create][] = rev:hasReview
+relation[create][] = fedora:isMemberOfCollection
+relation[create][] = oss:isMemberOfTheme
+relation[create][] = oss:hasCover
+relation[create][] = isMemberOfWork
+
+[rest]
+soap_header = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns=&quot;http://oss.dbc.dk/ns/opensearchadmin&quot;><SOAP-ENV:Body>
+
+soap_footer = </SOAP-ENV:Body></SOAP-ENV:Envelope>
+
+; REST parameters for SOAPactions
+;
+; use xml.path.to.par notation to solve name-conflicts
+; action[thisSoapAction][foo][] = some.number
+; action[thisSoapAction][bar][] = another.number
+; to build 
+; <thisSoapAction>
+;   <foo>
+;     <number>nn</number>
+;   </foo>
+;   <bar>
+;     <number>mm</number>
+;   </bar>
+; </thisSoapAction>
+; from url: action=thisSoapAction&some.number=nn&another.number=mm
+;
+;
+; action[ALL] defines parameter used in all defined soap-actions
+;
+action[ALL][] = outputType
+action[ALL][] = callback
+
+action[createObject][] = localIdentifier
+action[createObject][] = record
+action[createObject][theme] = themeIdentifier
+action[createObject][theme] = themeName
+
+action[copyObject][] = localIdentifier
+action[copyObject][] = objectIdentifier
+
+action[updateObject][] = localIdentifier
+action[updateObject][] = objectIdentifier
+action[updateObject][] = record
+action[updateObject][theme] = themeIdentifier
+action[updateObject][theme] = themeName
+
+action[deleteObject][] = objectIdentifier
+
+action[createRelation][] = relationSubject
+action[createRelation][] = relation
+action[createRelation][] = relationObject
+
+action[deleteRelation][] = relationSubject
+action[deleteRelation][] = relation
+action[deleteRelation][] = relationObject
+
+[howru]
+;test[] = createRelation&relationSubject=11&relation=xx&relationObject=22
+;preg_match[] = hitCount
+;error[] = ERROR finding createRelation
