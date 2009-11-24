@@ -13,7 +13,7 @@ OpenSearch is distributed in the hope that it will be useful, but WITHOUT ANY WA
 
 You should have received a copy of the GNU Affero General Public License along with OpenSearch.  If not, see http://www.gnu.org/licenses/</xs:documentation>
 	</xs:annotation>
-	<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="http://biblstandard.dk/abm/schemas/dkabm_2009-08-20.xsd"/>
+	<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="dkabm.xsd"/>
 	<xs:element name="createObjectRequest">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Create object request. For creation of new data in the object respository.</xs:documentation>
@@ -239,18 +239,22 @@ You should have received a copy of the GNU Affero General Public License along w
 	<xs:element name="status" type="osa:statusType"/>
 	<xs:simpleType name="errorType">
 		<xs:restriction base="xs:string">
-			<xs:enumeration value="service_unavailable"/>
+			<xs:enumeration value="error_fetching_object_record"/>
+			<xs:enumeration value="error_fetching_taskpackage_number"/>
+			<xs:enumeration value="error_in_local_identifier"/>
+			<xs:enumeration value="error_in_object_identifier"/>
 			<xs:enumeration value="error_in_request"/>
+			<xs:enumeration value="error_parsing_fedora_result"/>
+			<xs:enumeration value="error_reaching_es_database"/>
+			<xs:enumeration value="error_reaching_fedora"/>
 			<xs:enumeration value="operation_not_allowed_on_object"/>
 			<xs:enumeration value="relation_cannot_be_created"/>
 			<xs:enumeration value="relation_cannot_be_deleted"/>
 			<xs:enumeration value="relation_not_found"/>
+			<xs:enumeration value="service_unavailable"/>
 			<xs:enumeration value="unknown_relationSubject"/>
 			<xs:enumeration value="unknown_relationObject"/>
 			<xs:enumeration value="unknown_relation"/>
-			<xs:enumeration value="error_reaching_fedora"/>
-			<xs:enumeration value="error_parsing_fedora_result"/>
-			<xs:enumeration value="relation_cannot_be_deleted"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="outputTypeType">
