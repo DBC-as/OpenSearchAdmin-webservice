@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
+<ns1:deleteObjectRequest>
+  <ns1:objectIdentifier>777777:1234</ns1:objectIdentifier>
+</ns1:deleteObjectRequest>
+</SOAP-ENV:Body></SOAP-ENV:Envelope>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
+<ns1:createObjectRequest>
+  <ns1:theme>
+    <ns1:themeIdentifier>777777:1234</ns1:themeIdentifier>
+    <ns1:themeName>Tema-navn</ns1:themeName>
+  </ns1:theme>
+</ns1:createObjectRequest>
+</SOAP-ENV:Body></SOAP-ENV:Envelope>
