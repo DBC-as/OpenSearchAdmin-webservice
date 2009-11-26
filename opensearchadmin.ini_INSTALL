@@ -10,6 +10,7 @@ wsdl = opensearchadmin.wsdl
 ; validate
 ;validate[request] = opensearchadmin.xsd
 ;validate[response] = opensearchadmin.xsd
+validate[dkabm] = opensearchadmin.xsd
 
 ; soapActions and their corresponding request structure
 ; Can be found in the wsdl but is stated here for convenience
@@ -22,19 +23,41 @@ soapAction[deleteRelation] = deleteRelationRequest
 
 ; prefixes and namespaces
 xmlns[NONE] = http://oss.dbc.dk/ns/opensearchadmin
+xmlns[ting] = http://www.dbc.dk/ting
+xmlns[xs] = http://www.w3.org/2001/XMLSchema
+xmlns[xsi] = http://www.w3.org/2001/XMLSchema-instance
+xmlns[oss] = http://oss.dbc.dk/ns/osstypes
+xmlns[dc] = http://purl.org/dc/elements/1.1/
+xmlns[dkabm] = http://biblstandard.dk/abm/namespace/dkabm/
+xmlns[dcmitype] = http://purl.org/dc/dcmitype/
+xmlns[dcterms] = http://purl.org/dc/terms/
+xmlns[ac] = http://biblstandard.dk/ac/namespace/
+xmlns[dkdcplus] = http://biblstandard.dk/abm/namespace/dkdcplus/
 
 ; fedora urls
-fedora_get = http://gufa.dbc.dk:8080/fedora/get/%s
-fedora_get_rels_ext = http://gufa.dbc.dk:8080/fedora/get/%s/RELS-EXT
-fedora_API_M = http://gufa.dbc.dk:8080/fedora/services/management
+fedora_get = http://someserver.dbc.dk:8080/fedora/get/%s
+fedora_get_rels_ext = http://someserver.dbc.dk:8080/fedora/get/%s/RELS-EXT
+fedora_API_M = http://someserver.dbc.dk:8080/fedora/services/management
 fedora_user = fedorauser
 fedora_passwd = fedorapasswd
 
+; ES database
+es_credentials = foo/bar@foobar.dbc.dk
+es_userid = 3
+es_creator = openSearchAdmin
+es_update = 3
+es_delete = 9
+es_databaseName = ting
+es_schema =
+es_elementSetName = esn
+
+
 ; xml
 xml_create_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;><soapenv:Body><typ:addRelationship xmlns:typ=&quot;http://www.fedora.info/definitions/1/0/types/&quot;><pid>%s</pid><relationship>%s</relationship><object>%s</object><isLiteral>true</isLiteral><datatype xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:nil=&quot;true&quot;/></typ:addRelationship></soapenv:Body></soapenv:Envelope>
+
 xml_delete_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;><soapenv:Body><typ:purgeRelationship xmlns:typ=&quot;http://www.fedora.info/definitions/1/0/types/&quot;><pid>%s</pid><relationship>%s</relationship><object>%s</object><isLiteral>true</isLiteral><datatype xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:nil=&quot;true&quot;/></typ:purgeRelationship></soapenv:Body></soapenv:Envelope>
 
-
+xml_control = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><es:referencedata><es:info submitter=&quot;%s&quot; language=&quot;%s&quot; format=&quot;%s&quot;></es:info></es:referencedata>
 
 ; path to xml-examples
 xmldir = ./xml
