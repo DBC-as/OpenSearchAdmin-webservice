@@ -62,6 +62,7 @@ class openSearchAdmin extends webServiceServer {
   * Request:
   * - localIdentifier
   * - record
+  * or
   * - theme
   * - - themeIdentifier
   * - - themeName
@@ -72,29 +73,45 @@ class openSearchAdmin extends webServiceServer {
   */
   public function createObject($param) {
     $cor = &$ret->createObjectResponse->_value;
-    if (!$this->is_local_identifier($param->localIdentifier->_value))
-      $cor->error->_value = "error_in_local_identifier";
-    else {
-// ting container
-      $ting->container->_value->record = &$param->record;
-      $ting->container->_namespace = TING_NAMESPACE;
-      if ($this->validate["dkabm"]) {
-        $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
-        if (!$this->validate_xml($xml, $this->validate["dkabm"]))
-          $err = "error_validating_record";
-      }
-// make/change ac-identifier to new one
-      if (empty($err)) {
-        $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
-        $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
-      } 
-      if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
-        $cor->error->_value = $err;
+    if ($param->theme) {
+      if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
+        $err = "error_in_theme_identifier";
       else {
-        $cor->status->_value = "object_created";
-        $cor->objectIdentifier->_value = $param->localIdentifier->_value;
+        $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
+        $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
+        $ting->container->_value->record = &$record;
+        $ting->container->_namespace = TING_NAMESPACE;
+        $xml = $this->objconvert->obj2xmlNS($ting);
+        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
       }
+      echo $xml;
+      var_dump($ting);
+      var_dump($ting->container->_value->record->_value);
+      var_dump($param->theme->_value); die();
+    } else {
+      if (!$this->is_local_identifier($param->localIdentifier->_value))
+        $err = "error_in_local_identifier";
+      else {
+        $ting->container->_value->record = &$param->record;
+        $ting->container->_namespace = TING_NAMESPACE;
+        if ($this->validate["dkabm"]) {
+          $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
+          if (!$this->validate_xml($xml, $this->validate["dkabm"]))
+            $err = "error_validating_record";
+        }
+  // make/change ac-identifier to new one
+        if (empty($err)) {
+          $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
+          $xml = $this->objconvert->obj2xmlNS($ting);
+          $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
+        } 
+      }
+    }
+    if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
+      $cor->error->_value = $err;
+    else {
+      $cor->status->_value = "object_created";
+      $cor->objectIdentifier->_value = $param->localIdentifier->_value;
     }
     //var_dump($param); die();
     return $ret;
@@ -155,6 +172,7 @@ class openSearchAdmin extends webServiceServer {
   * - localIdentifier
   * - objectIdentifier
   * - record
+  * or
   * - theme
   * - - themeIdentifier
   * - - themeName
@@ -166,29 +184,45 @@ class openSearchAdmin extends webServiceServer {
   */
   public function updateObject($param) {
     $uor = &$ret->updateObjectResponse->_value;
-    if (!$this->is_local_identifier($param->localIdentifier->_value))
-      $uor->error->_value = "error_in_local_identifier";
-    else {
-// ting container
-      $ting->container->_value->record = &$param->record;
-      $ting->container->_namespace = TING_NAMESPACE;
-      if ($this->validate["dkabm"]) {
-        $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
-        if (!$this->validate_xml($xml, $this->validate["dkabm"]))
-          $err = "error_validating_record";
-      }
-// make/change ac-identifier to new one
-      if (empty($err)) {
-        $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
-        $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
-      } 
-      if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
-        $uor->error->_value = $err;
+    if ($param->theme) {
+      if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
+        $err = "error_in_theme_identifier";
       else {
-        $uor->status->_value = "object_updated";
-        $uor->objectIdentifier->_value = $param->localIdentifier->_value;
+        $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
+        $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
+        $ting->container->_value->record = &$record;
+        $ting->container->_namespace = TING_NAMESPACE;
+        $xml = $this->objconvert->obj2xmlNS($ting);
+        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
       }
+      echo $xml;
+      var_dump($ting);
+      var_dump($ting->container->_value->record->_value);
+      var_dump($param->theme->_value); die();
+    } else {
+      if (!$this->is_local_identifier($param->localIdentifier->_value))
+        $err = "error_in_local_identifier";
+      else {
+        $ting->container->_value->record = &$param->record;
+        $ting->container->_namespace = TING_NAMESPACE;
+        if ($this->validate["dkabm"]) {
+          $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
+          if (!$this->validate_xml($xml, $this->validate["dkabm"]))
+            $err = "error_validating_record";
+        }
+// make/change ac-identifier to new one
+        if (empty($err)) {
+          $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
+          $xml = $this->objconvert->obj2xmlNS($ting);
+          $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
+        } 
+      }
+    }
+    if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
+      $uor->error->_value = $err;
+    else {
+      $uor->status->_value = "object_updated";
+      $uor->objectIdentifier->_value = $param->localIdentifier->_value;
     }
     //var_dump($param); die();
     return $ret;
@@ -459,7 +493,9 @@ class openSearchAdmin extends webServiceServer {
  /** \brief Correct or create record identifier
   */
   private function set_record_identifier(&$id_obj, $local_id) {
-    if (!is_array($id_obj))
+    if (empty($id_obj))
+      $id_obj = array();
+    elseif (!is_array($id_obj) && !empty($id_obj))
       $id_obj = array($id_obj);
     list($agency, $rec_id) = explode(":", $local_id);
     $ac_id->_namespace = PID_NAMESPACE;
