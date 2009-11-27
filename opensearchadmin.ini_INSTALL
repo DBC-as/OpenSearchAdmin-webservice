@@ -46,10 +46,17 @@ es_credentials = foo/bar@foobar.dbc.dk
 es_userid = 3
 es_creator = openSearchAdmin
 es_update = 3
-es_delete = 9
+es_delete = 3
 es_databaseName = ting
 es_schema =
 es_elementSetName = esn
+
+; valid relations and their reverse relation
+relation["rev:hasReview"] =
+relation["fedora:isMemberOfCollection"] =
+relation["oss:isMemberOfTheme"] =
+relation["oss:hasCover"] =
+relation[isMemberOfWork] = hasManifestation
 
 
 ; xml
@@ -77,11 +84,6 @@ logfile = /tmp/some_log_file
 ;   OCI     - oracle
 verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 
-relation[create][] = rev:hasReview
-relation[create][] = fedora:isMemberOfCollection
-relation[create][] = oss:isMemberOfTheme
-relation[create][] = oss:hasCover
-relation[create][] = isMemberOfWork
 
 [rest]
 soap_header = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns=&quot;http://oss.dbc.dk/ns/opensearchadmin&quot;><SOAP-ENV:Body>
