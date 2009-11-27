@@ -27,9 +27,6 @@
 require_once("OLS_class_lib/webServiceServer_class.php");
 require_once("OLS_class_lib/oci_class.php");
 
-define("PID_NAMESPACE", "http://biblstandard.dk/ac/namespace/");
-define("TING_NAMESPACE", "http://www.dbc.dk/ting");
-
 class openSearchAdmin extends webServiceServer {
 
   protected $curl;
@@ -79,8 +76,8 @@ class openSearchAdmin extends webServiceServer {
       else {
         $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
         $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
+        $ting->container->_namespace = $this->xmlns["ting"];
         $ting->container->_value->record = &$record;
-        $ting->container->_namespace = TING_NAMESPACE;
         $xml = $this->objconvert->obj2xmlNS($ting);
         $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
       }
@@ -93,7 +90,7 @@ class openSearchAdmin extends webServiceServer {
         $err = "error_in_local_identifier";
       else {
         $ting->container->_value->record = &$param->record;
-        $ting->container->_namespace = TING_NAMESPACE;
+        $ting->container->_namespace = $this->xmlns["ting"];
         if ($this->validate["dkabm"]) {
           $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
           if (!$this->validate_xml($xml, $this->validate["dkabm"]))
@@ -147,7 +144,7 @@ class openSearchAdmin extends webServiceServer {
       else {
         $this->set_record_identifier(&$record->_value->identifier, $param->localIdentifier->_value);
         $ting->container->_value->record = &$record;
-        $ting->container->_namespace = TING_NAMESPACE;
+        $ting->container->_namespace = $this->xmlns["ting"];
         $xml = $this->objconvert->obj2xmlNS($ting);
         $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
         if ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup")))
@@ -191,7 +188,7 @@ class openSearchAdmin extends webServiceServer {
         $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
         $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
         $ting->container->_value->record = &$record;
-        $ting->container->_namespace = TING_NAMESPACE;
+        $ting->container->_namespace = $this->xmlns["ting"];
         $xml = $this->objconvert->obj2xmlNS($ting);
         $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
       }
@@ -204,7 +201,7 @@ class openSearchAdmin extends webServiceServer {
         $err = "error_in_local_identifier";
       else {
         $ting->container->_value->record = &$param->record;
-        $ting->container->_namespace = TING_NAMESPACE;
+        $ting->container->_namespace = $this->xmlns["ting"];
         if ($this->validate["dkabm"]) {
           $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
           if (!$this->validate_xml($xml, $this->validate["dkabm"]))
@@ -230,7 +227,7 @@ class openSearchAdmin extends webServiceServer {
 
 
 
- /** \brief deleteObject - Delete object request
+ /** \brief deleteObject - Delete object request - make an empty record
   *
   * Request:
   * - objectIdentifier
@@ -242,27 +239,20 @@ class openSearchAdmin extends webServiceServer {
   public function deleteObject($param) {
     $dor = &$ret->deleteObjectResponse->_value;
     if (!$this->is_identifier($param->objectIdentifier->_value))
-      $cor->error->_value = "error_in_object_identifier";
+      $dor->error->_value = "error_in_object_identifier";
     elseif ($copyobj = $this->object_get($param->objectIdentifier->_value)) {
-      $xmlobj = $this->xmlconvert->soap2obj($copyobj);
-      $record = &$xmlobj->container->_value->record;
-      if (empty($record)) 
-        $cor->error->_value = "no_record_in_object";
-      elseif (empty($record->_value->identifier)) 
-        $cor->error->_value = "no_identifier_in_object_record";
-      else {
-        $this->set_record_identifier(&$record->_value->identifier, $param->localIdentifier->_value);
-        $ting->container->_value->record = &$record;
-        $ting->container->_namespace = TING_NAMESPACE;
-        $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
-        if ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_delete", "setup")))
-          $cor->error->_value = $err;
-        else
-          $cor->status->_value = "object_deleted";
-      }
+      $delete_record->_namespace = $this->xmlns["dkabm"];
+      $delete_record->_value->identifier = $this->make_ac_identifier_obj($param->objectIdentifier->_value);
+      $ting->container->_value->record = &$delete_record;
+      $ting->container->_namespace = $this->xmlns["ting"];
+      $xml = $this->objconvert->obj2xmlNS($ting);
+      $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->objectIdentifier->_value), 'dan', 'katalog'));
+      if ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_delete", "setup")))
+        $dor->error->_value = $err;
+      else
+        $dor->status->_value = "object_deleted";
     } else
-      $cor->error->_value = "error_fetching_object_record";
+      $dor->error->_value = "error_fetching_object_record";
     //var_dump($ret); var_dump($param); die();
     return $ret;
   }
@@ -296,46 +286,30 @@ class openSearchAdmin extends webServiceServer {
     if (($from = $param->relationSubject->_value) &&
         ($rel = $param->relation->_value) &&
         ($to = $param->relationObject->_value)) {
-      $valid_relation = $this->config->get_value("relation", "setup");
+      $relations = $this->config->get_value("relation", "setup");
       if (!$this->object_exists($from))
         $crr->error->_value = "unknown_relationSubject";
       elseif (!$this->object_exists($to))
         $crr->error->_value = "unknown_relationObject";
-      elseif (!in_array($rel, $valid_relation["create"]))
+      elseif (!isset($relations[$rel]))
         $crr->error->_value = "unknown_relation";
-      else {
-        $fed_req = sprintf($this->config->get_value("xml_create_relation"), $from, $rel, $to);
-        $this->curl->set_soap_action('createRelation');
-        $this->curl->set_post_xml(html_entity_decode($fed_req));
-        $this->curl->set_authentication($this->config->get_value("fedora_user"), 
-                                        $this->config->get_value("fedora_passwd"));
-        $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
-				if ($this->curl->get_status('http_code') >= 300)
-          $crr->error->_value = "error_reaching_fedora";
-        else {
-          $dom = new DomDocument();
-          $dom->preserveWhiteSpace = false;
-          if (!$dom->loadXML($result)) 
-            $crr->error->_value = "error_parsing_fedora_result";
-          else {
-            if ($dom->getElementsByTagName("added")->item(0)->nodeValue == "true")
-              $crr->status->_value = "relation_created";
-            else
-              $crr->error->_value = "relation_cannot_be_created";
-          }
-        }
+      elseif ($err = $this->create_relation($from, $to, $rel))
+        $crr->error->_value = $err;
+      elseif (($rev = $relations[$rel]) && ($err = $this->create_relation($to, $from, $rev))) {
+        // $this->delete_relation($from, $to, $rel);
+        $crr->error->_value = $err;
+      } else
+        $crr->status->_value = "relation_created";
 //var_dump($result);
 //var_dump($this->curl->get_status());
 //var_dump(html_entity_decode($fed_req));
 //var_dump($this->curl->get_status());
-      }
     } else 
       $crr->error->_value = "error_in_request";
 //var_dump($param);
 //var_dump($ret); die();
     return $ret;
   }
-
 
 
  /** \brief deleteRelation
@@ -361,41 +335,25 @@ class openSearchAdmin extends webServiceServer {
     if (($from = $param->relationSubject->_value) &&
         ($rel = $param->relation->_value) &&
         ($to = $param->relationObject->_value)) {
-      $valid_relation = $this->config->get_value("relation", "setup");
+      $relations = $this->config->get_value("relation", "setup");
       if (!$this->object_exists($from))
         $drr->error->_value = "unknown_relationSubject";
       elseif (!$this->object_exists($to))
         $drr->error->_value = "unknown_relationObject";
-      elseif (!in_array($rel, $valid_relation["create"]))
+      elseif (!isset($relations[$rel]))
         $drr->error->_value = "unknown_relation";
       elseif (!$this->relation_exists($from, $to, $rel))
         $drr->error->_value = "relation_not_found";
-      else {
-        $fed_req = sprintf($this->config->get_value("xml_delete_relation"), $from, $rel, $to);
-        $this->curl->set_soap_action('purgeRelation');
-        $this->curl->set_post_xml(html_entity_decode($fed_req));
-        $this->curl->set_authentication($this->config->get_value("fedora_user"), 
-                                        $this->config->get_value("fedora_passwd"));
-        $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
-				if ($this->curl->get_status('http_code') >= 300)
-          $drr->error->_value = "error_reaching_fedora";
-        else {
-          $dom = new DomDocument();
-          $dom->preserveWhiteSpace = false;
-          if (!$dom->loadXML($result)) 
-            $drr->error->_value = "error_parsing_fedora_result";
-          else {
-            if ($dom->getElementsByTagName("purged")->item(0)->nodeValue == "true")
-              $drr->status->_value = "relation_deleted";
-            else
-              $drr->error->_value = "relation_cannot_be_deleted";
-          }
-        }
+      elseif ($err = $this->delete_relation($from, $to, $rel))
+        $drr->error->_value = $err;
+      elseif (($rev = $relations[$rel]) && ($err = $this->delete_relation($to, $from, $rev)))
+        $drr->error->_value = $err;
+      else
+        $drr->status->_value = "relation_deleted";
 //var_dump($result);
 //var_dump($this->curl->get_status());
 //var_dump(html_entity_decode($fed_req));
 //var_dump($this->curl->get_status());
-      }
     } else 
       $drr->error->_value = "error_in_request";
 //var_dump($param);
@@ -490,6 +448,50 @@ class openSearchAdmin extends webServiceServer {
   }
 
 
+ /** \brief create relation 
+  */
+  private function create_relation($from, $to, $rel) {
+    $fed_req = sprintf($this->config->get_value("xml_create_relation"), $from, $rel, $to);
+    $this->curl->set_soap_action('createRelation');
+    $this->curl->set_post_xml(html_entity_decode($fed_req));
+    $this->curl->set_authentication($this->config->get_value("fedora_user"), 
+                                    $this->config->get_value("fedora_passwd"));
+    $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
+    if ($this->curl->get_status('http_code') >= 300)
+      return "error_reaching_fedora";
+
+    $dom = new DomDocument();
+    $dom->preserveWhiteSpace = false;
+    if (!$dom->loadXML($result)) 
+      return "error_parsing_fedora_result";
+
+    if ($dom->getElementsByTagName("added")->item(0)->nodeValue <> "true")
+      return "relation_cannot_be_created";
+  }
+
+
+ /** \brief delete relation 
+  */
+  private function delete_relation($from, $to, $rel) {
+    $fed_req = sprintf($this->config->get_value("xml_delete_relation"), $from, $rel, $to);
+    $this->curl->set_soap_action('purgeRelation');
+    $this->curl->set_post_xml(html_entity_decode($fed_req));
+    $this->curl->set_authentication($this->config->get_value("fedora_user"), 
+                                    $this->config->get_value("fedora_passwd"));
+    $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
+    if ($this->curl->get_status('http_code') >= 300)
+      return "error_reaching_fedora";
+
+    $dom = new DomDocument();
+    $dom->preserveWhiteSpace = false;
+    if (!$dom->loadXML($result)) 
+      return "error_parsing_fedora_result";
+
+    if ($dom->getElementsByTagName("purged")->item(0)->nodeValue <> "true")
+      return "relation_cannot_be_deleted";
+  }
+
+
  /** \brief Correct or create record identifier
   */
   private function set_record_identifier(&$id_obj, $local_id) {
@@ -497,15 +499,23 @@ class openSearchAdmin extends webServiceServer {
       $id_obj = array();
     elseif (!is_array($id_obj) && !empty($id_obj))
       $id_obj = array($id_obj);
-    list($agency, $rec_id) = explode(":", $local_id);
-    $ac_id->_namespace = PID_NAMESPACE;
-    $ac_id->_value = $rec_id . "|" . $agency;
+    $ac_id = $this->make_ac_identifier_obj($local_id);
     foreach ($id_obj as $key => $id)
-      if ($id->_namespace == PID_NAMESPACE) {
+      if ($id->_namespace == $this->xmlns["ac"]) {
         $id_obj[$key]->_value = $ac_id->_value;
         return;
       }
     $id_obj[] = $ac_id;
+  }
+
+
+ /** \brief 
+  */
+  private function make_ac_identifier_obj($local_id) {
+    list($agency, $rec_id) = explode(":", $local_id);
+    $ac_id->_namespace = $this->xmlns["ac"];
+    $ac_id->_value = $rec_id . "|" . $agency;
+    return $ac_id;
   }
 
 
@@ -572,6 +582,15 @@ class openSearchAdmin extends webServiceServer {
   }
 
 
+ /** \brief 
+  */
+  private function url_decode_array($arr) {
+    $ret = "";
+    if (is_array($arr))
+      foreach ($arr as $key => $val)
+        $ret[urldecode($key)] = urldecode($val);
+    return $ret;
+  }
 }
 
 /*
