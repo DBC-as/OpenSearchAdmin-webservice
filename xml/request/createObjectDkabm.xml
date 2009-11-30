@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ac="http://biblstandard.dk/ac/namespace/" xmlns:dkdcplus="http://biblstandard.dk/abm/namespace/dkdcplus/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
 <ns1:createObjectRequest>
-  <ns1:localIdentifier>777777:11122</ns1:localIdentifier>
+  <ns1:localIdentifier>710100:11122</ns1:localIdentifier>
   <dkabm:record>
     <ac:identifier>06594026|870970</ac:identifier> 
     <ac:source>test</ac:source> 

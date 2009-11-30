@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
 <ns1:copyObjectRequest>
-  <ns1:localIdentifier>777777:123</ns1:localIdentifier>
+  <ns1:localIdentifier>710100:123</ns1:localIdentifier>
   <ns1:objectIdentifier>dbc:26961084</ns1:objectIdentifier>
 </ns1:copyObjectRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>
