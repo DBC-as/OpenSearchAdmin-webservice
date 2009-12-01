@@ -258,6 +258,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:enumeration value="unknown_relationSubject"/>
 			<xs:enumeration value="unknown_relationObject"/>
 			<xs:enumeration value="unknown_relation"/>
+			<xs:enumeration value="unknown_agency"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="outputTypeType">
