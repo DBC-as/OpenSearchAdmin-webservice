@@ -2,7 +2,7 @@
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
 <ns1:createRelationRequest>
   <ns1:relationSubject>dbc:26961084</ns1:relationSubject>
-  <ns1:relation>oss:isMemberOfTheme</ns1:relation>
+  <ns1:relation>dbcaddi:isPartOfTheme</ns1:relation>
   <ns1:relationObject>dbc:06594026</ns1:relationObject>
 </ns1:createRelationRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>
