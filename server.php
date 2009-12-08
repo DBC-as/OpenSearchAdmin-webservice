@@ -74,14 +74,19 @@ class openSearchAdmin extends webServiceServer {
       if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
         $err = "error_in_theme_identifier";
       else {
+        $record->_namespace = $this->xmlns["oso"];
+        $record->_value->type->_namespace = $this->xmlns["oso"];;
+        $record->_value->type->_value = $param->theme->_value->themeName->_value;
+        $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, "oso");
+        $record->_value->themeName->_namespace = $this->xmlns["oso"];;
         $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
-        $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
         $ting->container->_namespace = $this->xmlns["ting"];
-        $ting->container->_value->record = &$record;
+        $ting->container->_value->object = &$record;
         $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
+
+        $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
       }
-      echo $xml;
+      echo str_replace("?", ".", $xml);
       var_dump($ting);
       var_dump($ting->container->_value->record->_value);
       var_dump($param->theme->_value); die();
@@ -100,11 +105,11 @@ class openSearchAdmin extends webServiceServer {
         if (empty($err)) {
           $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
           $xml = $this->objconvert->obj2xmlNS($ting);
-          $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
+          $agency = $this->get_agency($param->localIdentifier->_value);
         } 
       }
     }
-    if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
+    if ( $err || ($err = $this->ship_to_ES($xml, $agency)))
       $cor->error->_value = $err;
     else {
       $cor->status->_value = "object_created";
@@ -146,8 +151,8 @@ class openSearchAdmin extends webServiceServer {
         $ting->container->_value->record = &$record;
         $ting->container->_namespace = $this->xmlns["ting"];
         $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
-        if ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup")))
+        $agency = $this->get_agency($param->localIdentifier->_value);
+        if ($err = $this->ship_to_ES($xml, $agency))
           $cor->error->_value = $err;
         else {
           $cor->status->_value = "object_copied";
@@ -190,7 +195,7 @@ class openSearchAdmin extends webServiceServer {
         $ting->container->_value->record = &$record;
         $ting->container->_namespace = $this->xmlns["ting"];
         $xml = $this->objconvert->obj2xmlNS($ting);
-        $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->theme->_value->themeIdentifier->_value), 'dan', 'katalog'));
+        $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
       }
       echo $xml;
       var_dump($ting);
@@ -211,11 +216,11 @@ class openSearchAdmin extends webServiceServer {
         if (empty($err)) {
           $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
           $xml = $this->objconvert->obj2xmlNS($ting);
-          $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->localIdentifier->_value), 'dan', 'katalog'));
+          $agency = $this->get_agency($param->localIdentifier->_value);
         } 
       }
     }
-    if ( $err || ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_update", "setup"))))
+    if ( $err || ($err = $this->ship_to_ES($xml, $agency)))
       $uor->error->_value = $err;
     else {
       $uor->status->_value = "object_updated";
@@ -242,12 +247,12 @@ class openSearchAdmin extends webServiceServer {
       $dor->error->_value = "error_in_object_identifier";
     elseif ($copyobj = $this->object_get($param->objectIdentifier->_value)) {
       $delete_record->_namespace = $this->xmlns["dkabm"];
-      $delete_record->_value->identifier = $this->make_ac_identifier_obj($param->objectIdentifier->_value);
+      $delete_record->_value->identifier = $this->make_identifier_obj($param->objectIdentifier->_value, "ac");
       $ting->container->_value->record = &$delete_record;
       $ting->container->_namespace = $this->xmlns["ting"];
       $xml = $this->objconvert->obj2xmlNS($ting);
-      $control_xml = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $this->get_agency($param->objectIdentifier->_value), 'dan', 'katalog'));
-      if ($err = $this->ship_to_ES($xml, $control_xml, $this->config->get_value("es_delete", "setup")))
+      $agency = $this->get_agency($param->objectIdentifier->_value);
+      if ($err = $this->ship_to_ES($xml, $agency))
         $dor->error->_value = $err;
       else
         $dor->status->_value = "object_deleted";
@@ -368,89 +373,98 @@ class openSearchAdmin extends webServiceServer {
 
  /** \brief create taskpackage in ES
   */
-  private function ship_to_ES(&$rec, &$rec_control, $es_action) {
-    $oci = new Oci($this->config->get_value("es_credentials","setup"));
-    $oci->set_charset("UTF8");
-    $oci->connect();
-    if ($err = $oci->get_error_string()) {
-      $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI connect error: " . $err);
-      return "error_reaching_es_database";
-    } else {
-      $oci->set_query("SELECT taskpackageRefSeq.nextval FROM dual");
-      $val = $oci->fetch_into_assoc();
-      if ($tgt_ref = $val["NEXTVAL"]) {
-        $pck_type = 5;
-        $pck_name = $tgt_ref;
-        $userid = $this->config->get_value("es_userid", "setup");
-        $creator = $this->config->get_value("es_creator", "setup");
-        $oci->bind("bind_pck_type", &$pck_type);
-        $oci->bind("bind_pck_name", &$pck_name);
-        $oci->bind("bind_tgt_ref", &$tgt_ref);
-        $oci->bind("bind_userid", &$userid);
-        $oci->bind("bind_creator", &$creator);
-        $oci->set_query("INSERT INTO taskpackage 
-                           (packagetype, packageName, userid, targetReference, creator)
-                         VALUES (:bind_pck_type, :bind_pck_name, :bind_userid, :bind_tgt_ref, :bind_creator)");
-        if ($err = $oci->get_error_string()) {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskpackage error: " . $err);
-          $oci->rollback();
-          return "error_writing_es_databse";
-        }
-
-        $databaseName = $this->config->get_value("es_databaseName", "setup");
-        $schema = $this->config->get_value("es_schema", "setup");
-        $elementSetName = $this->config->get_value("es_elementSetName", "setup");
-        $oci->bind("bind_tgt_ref", &$tgt_ref);
-        $oci->bind("bind_action", &$es_action);
-        $oci->bind("bind_databaseName", &$databaseName);
-        $oci->bind("bind_schema", &$schema);
-        $oci->bind("bind_elementSetName", &$elementSetName);
-        $oci->set_query("INSERT INTO taskspecificUpdate
-                           (targetReference, action, databaseName, schema, elementSetName)
-                         VALUES (:bind_tgt_ref, :bind_action, :bind_databaseName, :bind_schema, :bind_elementSetName)");
-        if ($err = $oci->get_error_string()) {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskspecificUpdate error: " . $err);
-          $oci->rollback();
-          return "error_writing_es_databse";
-        }
-
-        $lbnr = 0;
-        $oci->bind("bind_tgt_ref", &$tgt_ref);
-        $oci->bind("bind_lbnr", &$lbnr);
-        $oci->bind("bind_supplementalid3", $rec_control);
-        if (!$rec_lob = $oci->create_lob()) die("cannot create LOB");
-        $oci->bind("bind_rec_lob", &$rec_lob, -1, OCI_B_BLOB);
-        $oci->set_query("INSERT INTO suppliedrecords
-                           (targetreference, lbnr, supplementalid3, record)
-                         VALUES (:bind_tgt_ref, :bind_lbnr, :bind_supplementalid3, EMPTY_BLOB())
-                         RETURNING record into :bind_rec_lob");
-        if ($err = $oci->get_error_string()) {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into suppliedrecords error: " . $err);
-          $oci->rollback();
-          return "error_writing_es_databse";
-        }
-        if ($rec_lob->save($rec))
-          $oci->commit();
-        else {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI save blob into suppliedrecords error: " . $err);
-          $oci->rollback();
-          return "error_writing_es_databse";
-        }
-        if ($err = $oci->get_error_string()) {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI commit error: " . $err);
-          return "error_writing_es_databse";
-        }
+  private function ship_to_ES(&$rec, &$agency) {
+    $es_databaseName = $this->config->get_value("es_databaseName","setup");
+    if ($database_name = $es_databaseName[$agency]) {
+      $rec_control = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $agency, 'dan', $database_name));
+      $oci = new Oci($this->config->get_value("es_credentials","setup"));
+      $oci->set_charset("UTF8");
+      $oci->connect();
+      if ($err = $oci->get_error_string()) {
+        $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI connect error: " . $err);
+        return "error_reaching_es_database";
       } else {
-        $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI nextval error: " . $err);
-        return "error_fetching_taskpackage_number";
+        $oci->set_query("SELECT taskpackageRefSeq.nextval FROM dual");
+        $val = $oci->fetch_into_assoc();
+        if ($tgt_ref = $val["NEXTVAL"]) {
+          $pck_type = 5;
+          $pck_name = $tgt_ref;
+          $userid = $this->config->get_value("es_userid", "setup");
+          $creator = $this->config->get_value("es_creator", "setup");
+          $oci->bind("bind_pck_type", &$pck_type);
+          $oci->bind("bind_pck_name", &$pck_name);
+          $oci->bind("bind_tgt_ref", &$tgt_ref);
+          $oci->bind("bind_userid", &$userid);
+          $oci->bind("bind_creator", &$creator);
+          $oci->set_query("INSERT INTO taskpackage 
+                             (packagetype, packageName, userid, targetReference, creator)
+                           VALUES (:bind_pck_type, :bind_pck_name, :bind_userid, :bind_tgt_ref, :bind_creator)");
+          if ($err = $oci->get_error_string()) {
+            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskpackage error: " . $err);
+            $oci->rollback();
+            return "error_writing_es_databse";
+          }
+
+          $schema = $this->config->get_value("es_schema", "setup");
+          $elementSetName = $this->config->get_value("es_elementSetName", "setup");
+          $es_action = $this->config->get_value("es_action", "setup");
+          $oci->bind("bind_tgt_ref", &$tgt_ref);
+          $oci->bind("bind_action", &$es_action);
+          $oci->bind("bind_databaseName", &$database_nme);
+          $oci->bind("bind_schema", &$schema);
+          $oci->bind("bind_elementSetName", &$elementSetName);
+          $oci->set_query("INSERT INTO taskspecificUpdate
+                             (targetReference, action, databaseName, schema, elementSetName)
+                           VALUES (:bind_tgt_ref, :bind_action, :bind_databaseName, :bind_schema, :bind_elementSetName)");
+          if ($err = $oci->get_error_string()) {
+            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskspecificUpdate error: " . $err);
+            $oci->rollback();
+            return "error_writing_es_databse";
+          }
+
+          $lbnr = 0;
+          $oci->bind("bind_tgt_ref", &$tgt_ref);
+          $oci->bind("bind_lbnr", &$lbnr);
+          $oci->bind("bind_supplementalid3", $rec_control);
+          if (!$rec_lob = $oci->create_lob()) die("cannot create LOB");
+          $oci->bind("bind_rec_lob", &$rec_lob, -1, OCI_B_BLOB);
+          $oci->set_query("INSERT INTO suppliedrecords
+                             (targetreference, lbnr, supplementalid3, record)
+                           VALUES (:bind_tgt_ref, :bind_lbnr, :bind_supplementalid3, EMPTY_BLOB())
+                           RETURNING record into :bind_rec_lob");
+          if ($err = $oci->get_error_string()) {
+            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into suppliedrecords error: " . $err);
+            $oci->rollback();
+            return "error_writing_es_databse";
+          }
+          if ($rec_lob->save($rec))
+            $oci->commit();
+          else {
+            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI save blob into suppliedrecords error: " . $err);
+            $oci->rollback();
+            return "error_writing_es_databse";
+          }
+          if ($err = $oci->get_error_string()) {
+            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI commit error: " . $err);
+            return "error_writing_es_databse";
+          }
+        } else {
+          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI nextval error: " . $err);
+          return "error_fetching_taskpackage_number";
+        }
       }
-    }
+    } else
+      return "unknown_agency";
   }
 
 
  /** \brief create relation 
   */
+// come ça : http://oss.dbc.dk/rdf/dkbib#aakb_catalog
   private function create_relation($from, $to, $rel) {
+    list($prefix, $val) = explode(":", $rel);
+    if ($prefix && $val && $this->xmlns[$prefix])
+      $rel = $this->xmlns[$prefix] . "#" . $val;
     $fed_req = sprintf($this->config->get_value("xml_create_relation"), $from, $rel, $to);
     $this->curl->set_soap_action('createRelation');
     $this->curl->set_post_xml(html_entity_decode($fed_req));
@@ -473,6 +487,9 @@ class openSearchAdmin extends webServiceServer {
  /** \brief delete relation 
   */
   private function delete_relation($from, $to, $rel) {
+    list($prefix, $val) = explode(":", $rel);
+    if ($prefix && $val && $this->xmlns[$prefix])
+      $rel = $this->xmlns[$prefix] . "#" . $val;
     $fed_req = sprintf($this->config->get_value("xml_delete_relation"), $from, $rel, $to);
     $this->curl->set_soap_action('purgeRelation');
     $this->curl->set_post_xml(html_entity_decode($fed_req));
@@ -499,7 +516,7 @@ class openSearchAdmin extends webServiceServer {
       $id_obj = array();
     elseif (!is_array($id_obj) && !empty($id_obj))
       $id_obj = array($id_obj);
-    $ac_id = $this->make_ac_identifier_obj($local_id);
+    $ac_id = $this->make_identifier_obj($local_id, "ac");
     foreach ($id_obj as $key => $id)
       if ($id->_namespace == $this->xmlns["ac"]) {
         $id_obj[$key]->_value = $ac_id->_value;
@@ -511,11 +528,11 @@ class openSearchAdmin extends webServiceServer {
 
  /** \brief 
   */
-  private function make_ac_identifier_obj($local_id) {
+  private function make_identifier_obj($local_id, $pref = "") {
     list($agency, $rec_id) = explode(":", $local_id);
-    $ac_id->_namespace = $this->xmlns["ac"];
-    $ac_id->_value = $rec_id . "|" . $agency;
-    return $ac_id;
+    $identifier->_namespace = empty($pref) ? $this->xmlns["ac"] : $this->xmlns[$pref];
+    $identifier->_value = $rec_id . "|" . $agency;
+    return $identifier;
   }
 
 
@@ -566,7 +583,6 @@ class openSearchAdmin extends webServiceServer {
  /** \brief 
   */
   private function object_get($obj_id) {
-    //$this->set_curl();
     $f_req = sprintf($this->config->get_value("fedora_get_raw"), $obj_id);
     return $this->curl->get($f_req);
   }
@@ -575,7 +591,6 @@ class openSearchAdmin extends webServiceServer {
  /** \brief 
   */
   private function object_exists($obj_id) {
-    //$this->set_curl();
     $f_req = sprintf($this->config->get_value("fedora_get"), $obj_id);
     $result = $this->curl->get($f_req);
     return $this->curl->get_status('http_code') < 300;
