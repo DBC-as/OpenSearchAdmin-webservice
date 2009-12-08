@@ -27,6 +27,7 @@ xmlns[ting] = http://www.dbc.dk/ting
 xmlns[xs] = http://www.w3.org/2001/XMLSchema
 xmlns[xsi] = http://www.w3.org/2001/XMLSchema-instance
 xmlns[oss] = http://oss.dbc.dk/ns/osstypes
+xmlns[oso] = http://oss.dbc.dk/ns/opensearchobject
 xmlns[dc] = http://purl.org/dc/elements/1.1/
 xmlns[dkabm] = http://biblstandard.dk/abm/namespace/dkabm/
 xmlns[dcmitype] = http://purl.org/dc/dcmitype/
@@ -52,11 +53,19 @@ es_schema =
 es_elementSetName = esn
 
 ; valid relations and their reverse relation
+; namespace should be set in xmlns above
 relation["rev:hasReview"] =
-relation["fedora:isMemberOfCollection"] =
-relation["oss:isMemberOfTheme"] =
-relation["oss:hasCover"] =
-relation[isMemberOfWork] = hasManifestation
+relation["dbcaddi:hasCoverImage"] =
+relation["dbcaddi:hasUserCreatedContent"] =
+relation["dbcaddi:hasSoundClip"] =
+relation["dbcaddi:hasDemo"] =
+relation["dbcaddi:hasTrailer"] =
+relation["dbcaddi:hasTutorial"] =
+relation["dbcaddi:hasRingtone"] =
+;relation["dbcaddi:hasTrack"] = dbcaddi:isPartOfAlbum
+;relation["dbcaddi:isPartOfAlbum"] = dbcaddi:hasTrack"
+relation["dbcaddi:hasThemeMember"] = dbcaddi:isPartOfTheme
+relation["dbcaddi:isPartOfTheme"] = dbcaddi:hasThemeMember"
 
 
 ; xml
