@@ -1,7 +1,7 @@
 ; Inifile for opensearchadmin
 
 [setup]
-version = 0.1
+version = 0.2
 
 
 ; wsdl for service
@@ -44,12 +44,14 @@ fedora_passwd = fedorapasswd
 
 ; ES database
 es_credentials = foo/bar@foobar.dbc.dk
+
+; list of valid agencies and their corresponding databaseName
+es_databaseName[put-agency-here] = and-corresponding-databaseName-here
+
 es_userid = 3
 es_creator = openSearchAdmin
-es_update = 3
-es_delete = 3
-es_databaseName = ting
-es_schema =
+es_action = 1
+es_schema = addi
 es_elementSetName = esn
 
 ; valid relations and their reverse relation

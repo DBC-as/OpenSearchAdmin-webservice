@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ac="http://biblstandard.dk/ac/namespace/" xmlns:dkdcplus="http://biblstandard.dk/abm/namespace/dkdcplus/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
 <ns1:updateObjectRequest>
-  <ns1:localIdentifier>150013:123</ns1:localIdentifier>
-  <ns1:objectIdentifier>888888:123</ns1:objectIdentifier>
+  <ns1:agencyId>150013</ns1:agencyId>
+  <ns1:objectIdentifier>150013:06594026</ns1:objectIdentifier>
+<!-- objectIdentifier|agencyId overwrites/creates the ac:identifier in the dkabm:record -->
   <dkabm:record>
-    <ac:identifier>06594026|870970</ac:identifier>
+    <ac:identifier>06594026|150013</ac:identifier>
     <ac:source>test</ac:source>
     <dc:title>Post fra openSearchAdmin</dc:title>
     <dc:creator>Test Testesen</dc:creator>

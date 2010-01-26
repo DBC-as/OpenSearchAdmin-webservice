@@ -21,6 +21,17 @@
 
 
 /**
+ * 2DO: timers 
+ */
+/** 2do
+ * updateObjectDkabm: localidentifier -> agency
+ *                    ac:identifier i dkabm:record dannes fra agency og id-parten af objectidentifier *                    en evt. ac:identifier overskrives
+ * createObjectDkabm: localidentifier -> agency
+ *                    ac:idenfier i dkabm_record justeres så agency-parten overskrives af agency
+ */
+
+
+/**
  * Objects are updated via the ES-database whereas relations are updated directly in Fedora
  */
 
@@ -75,10 +86,10 @@ class openSearchAdmin extends webServiceServer {
         $err = "error_in_theme_identifier";
       else {
         $record->_namespace = $this->xmlns["oso"];
-        $record->_value->type->_namespace = $this->xmlns["oso"];;
+        $record->_value->type->_namespace = $this->xmlns["oso"];
         $record->_value->type->_value = $param->theme->_value->themeName->_value;
         $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, "oso");
-        $record->_value->themeName->_namespace = $this->xmlns["oso"];;
+        $record->_value->themeName->_namespace = $this->xmlns["oso"];
         $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
         $ting->container->_namespace = $this->xmlns["ting"];
         $ting->container->_value->object = &$record;
@@ -86,10 +97,10 @@ class openSearchAdmin extends webServiceServer {
 
         $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
       }
-      echo str_replace("?", ".", $xml);
-      var_dump($ting);
-      var_dump($ting->container->_value->record->_value);
-      var_dump($param->theme->_value); die();
+      //echo str_replace("?", ".", $xml);
+      //var_dump($ting);
+      //var_dump($ting->container->_value->record->_value);
+      //var_dump($param->theme->_value); die();
     } else {
       if (!$this->is_local_identifier($param->localIdentifier->_value))
         $err = "error_in_local_identifier";
@@ -197,13 +208,13 @@ class openSearchAdmin extends webServiceServer {
         $xml = $this->objconvert->obj2xmlNS($ting);
         $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
       }
-      echo $xml;
-      var_dump($ting);
-      var_dump($ting->container->_value->record->_value);
-      var_dump($param->theme->_value); die();
+      //echo $xml;
+      //var_dump($ting);
+      //var_dump($ting->container->_value->record->_value);
+      //var_dump($param->theme->_value); die();
     } else {
-      if (!$this->is_local_identifier($param->localIdentifier->_value))
-        $err = "error_in_local_identifier";
+      if (!$this->is_local_identifier($param->objectIdentifier->_value))
+        $err = "error_in_object_identifier";
       else {
         $ting->container->_value->record = &$param->record;
         $ting->container->_namespace = $this->xmlns["ting"];
@@ -214,9 +225,10 @@ class openSearchAdmin extends webServiceServer {
         }
 // make/change ac-identifier to new one
         if (empty($err)) {
-          $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
+          $agency = $param->agencyId->_value;
+          $object_identifier = $agency . ":" . $this->get_identifier($param->objectIdentifier->_value);
+          $this->set_record_identifier(&$param->record->_value->identifier, $object_identifier);
           $xml = $this->objconvert->obj2xmlNS($ting);
-          $agency = $this->get_agency($param->localIdentifier->_value);
         } 
       }
     }
@@ -410,7 +422,7 @@ class openSearchAdmin extends webServiceServer {
           $es_action = $this->config->get_value("es_action", "setup");
           $oci->bind("bind_tgt_ref", &$tgt_ref);
           $oci->bind("bind_action", &$es_action);
-          $oci->bind("bind_databaseName", &$database_nme);
+          $oci->bind("bind_databaseName", &$database_name);
           $oci->bind("bind_schema", &$schema);
           $oci->bind("bind_elementSetName", &$elementSetName);
           $oci->set_query("INSERT INTO taskspecificUpdate
@@ -471,7 +483,7 @@ class openSearchAdmin extends webServiceServer {
     $this->curl->set_authentication($this->config->get_value("fedora_user"), 
                                     $this->config->get_value("fedora_passwd"));
     $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
-    if ($this->curl->get_status('http_code') >= 300)
+    if (!$result || $this->curl->get_status('http_code') >= 300)
       return "error_reaching_fedora";
 
     $dom = new DomDocument();
@@ -496,7 +508,7 @@ class openSearchAdmin extends webServiceServer {
     $this->curl->set_authentication($this->config->get_value("fedora_user"), 
                                     $this->config->get_value("fedora_passwd"));
     $result = $this->curl->get($this->config->get_value("fedora_API_M", "setup"));
-    if ($this->curl->get_status('http_code') >= 300)
+    if (!$result || $this->curl->get_status('http_code') >= 300)
       return "error_reaching_fedora";
 
     $dom = new DomDocument();
@@ -541,6 +553,14 @@ class openSearchAdmin extends webServiceServer {
   private function get_agency($local_id) {
     list($agency, $rec_id) = explode(":", $local_id);
     return $agency;
+  }
+
+
+ /** \brief 
+  */
+  private function get_identifier($local_id) {
+    list($agency, $rec_id) = explode(":", $local_id);
+    return $rec_id;
   }
 
 
@@ -592,8 +612,10 @@ class openSearchAdmin extends webServiceServer {
   */
   private function object_exists($obj_id) {
     $f_req = sprintf($this->config->get_value("fedora_get"), $obj_id);
-    $result = $this->curl->get($f_req);
-    return $this->curl->get_status('http_code') < 300;
+    if ($this->curl->get($f_req))
+      return $this->curl->get_status('http_code') < 300;
+    else
+      return FALSE;
   }
 
 

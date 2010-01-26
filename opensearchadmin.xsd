@@ -77,7 +77,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="osa:localIdentifier"/>
+				<xs:element ref="osa:agencyId"/>
 				<xs:element ref="osa:objectIdentifier"/>
 				<xs:choice>
 					<xs:element ref="dkabm:record"/>
@@ -229,6 +229,11 @@ You should have received a copy of the GNU Affero General Public License along w
 	<xs:element name="themeIdentifier" type="xs:string">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">local identifier of a theme.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="agencyId" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identifier of the agency using this service</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="themeName" type="xs:string">
