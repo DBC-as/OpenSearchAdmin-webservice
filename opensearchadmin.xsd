@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2009 sp1 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S) -->
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:osa="http://oss.dbc.dk/ns/opensearchadmin" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" targetNamespace="http://oss.dbc.dk/ns/opensearchadmin" elementFormDefault="qualified">
 	<xs:annotation>
 		<xs:documentation xml:lang="en">Open Search Administrative Service</xs:documentation>
@@ -20,6 +20,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:localIdentifier"/>
 				<xs:choice>
 					<xs:element ref="dkabm:record"/>
@@ -50,6 +51,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:localIdentifier"/>
 				<xs:element ref="osa:objectIdentifier"/>
 				<xs:element ref="osa:callback" minOccurs="0"/>
@@ -77,6 +79,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:agencyId"/>
 				<xs:element ref="osa:objectIdentifier"/>
 				<xs:choice>
@@ -108,6 +111,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:objectIdentifier"/>
 				<xs:element ref="osa:callback" minOccurs="0"/>
 				<xs:element ref="osa:outputType" minOccurs="0"/>
@@ -131,6 +135,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:relationSubject"/>
 				<xs:element ref="osa:relation"/>
 				<xs:element ref="osa:relationObject"/>
@@ -156,6 +161,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
+				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:relationSubject"/>
 				<xs:element ref="osa:relation"/>
 				<xs:element ref="osa:relationObject"/>
@@ -175,6 +181,23 @@ You should have received a copy of the GNU Affero General Public License along w
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
+	<xs:element name="agencyId" type="xs:string">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identifier of the agency using this service</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="authentication">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Parameters used for authentication purposes</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="osa:groupIdAut"/>
+				<xs:element ref="osa:passwordAut"/>
+				<xs:element ref="osa:userIdAut"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="callback" type="xs:string">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">If outputType=json.</xs:documentation>
@@ -183,6 +206,11 @@ You should have received a copy of the GNU Affero General Public License along w
 	<xs:element name="error" type="osa:errorType">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Error message</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="groupIdAut">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Identifier of the group (most often a library number) the user belongs to (for authentication purposes)</xs:documentation>
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="localIdentifier" type="xs:anyURI">
@@ -200,6 +228,11 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">E.g. xml, json or php.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="passwordAut">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">Password (for authentication purposes)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:element name="relation" type="osa:relationType">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">The type of relation of this specific relation.</xs:documentation>
@@ -215,6 +248,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">Identifier of the object that has/is to have the relation.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
+	<xs:element name="status" type="osa:statusType"/>
 	<xs:element name="theme">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">A theme that relates objects in the object repository in a thematic way.</xs:documentation>
@@ -231,17 +265,16 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">local identifier of a theme.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="agencyId" type="xs:string">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Identifier of the agency using this service</xs:documentation>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="themeName" type="xs:string">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Name describing a theme.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="status" type="osa:statusType"/>
+	<xs:element name="userIdAut">
+		<xs:annotation>
+			<xs:documentation xml:lang="en">User identifier (for authentication purposes)</xs:documentation>
+		</xs:annotation>
+	</xs:element>
 	<xs:simpleType name="errorType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="error_fetching_object_record"/>
