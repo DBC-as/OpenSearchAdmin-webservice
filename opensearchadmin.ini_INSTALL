@@ -96,6 +96,27 @@ logfile = /tmp/some_log_file
 verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 
 
+[aaa]
+; aaa Authentication, Access control and Accounting
+; if aaa_credentials is set, the rights-object is created from
+; the FORS-server or aaa_ip_rights below
+;
+; oci credentials for FORS server
+aaa_credentials = foo/bar@foobar.dbc.dk
+; memcache server - use localhost in one-webserver environment
+;aaa_cache_address = localhost:11211
+; number of seconds to cache authentication and access rights info
+;aaa_cache_seconds = 3600
+;
+; As an alternative to FORS rights, rights can be set here for selected ip-addresses
+; aaa_ip_rights[group-identifier][ip_list] = list of ip's
+; aaa_ip_rights[group-identifier][ressource][<named ressource>] = right to <named ressource>
+; aaa_ip_rights[group-identifier][ressource][<named ressource 2>] = right to <named ressource 2>
+;
+;aaa_ip_rights[dbc][ip_list] = 127.0.0.1-127.0.0.2
+;aaa_ip_rights[dbc][ressource][opensearchadmin] = 500
+
+
 [rest]
 soap_header = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><SOAP-ENV:Envelope xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns=&quot;http://oss.dbc.dk/ns/opensearchadmin&quot;><SOAP-ENV:Body>
 
