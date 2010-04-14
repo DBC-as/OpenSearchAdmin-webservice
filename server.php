@@ -20,15 +20,9 @@
 */
 
 
-/** 2do
- * updateObjectDkabm: localidentifier -> agency
- *                    ac:identifier i dkabm:record dannes fra agency og id-parten af objectidentifier
- *                    en evt. ac:identifier overskrives
- */
-
-
 /**
- * Objects are updated via the ES-database whereas relations are updated directly in Fedora
+ * Objects are updated via the ES-database whereas 
+ * relations are updated directly in Fedora
  */
 
 require_once("OLS_class_lib/webServiceServer_class.php");
@@ -113,14 +107,16 @@ class openSearchAdmin extends webServiceServer {
             if (!$this->validate_xml($xml, $this->validate["dkabm"]))
               $err = "error_validating_record";
           }
-    // make/change ac-identifier to new one
+    // set oso-identifier
           if (empty($err)) {
-            $this->set_record_identifier(&$param->record->_value->identifier, $param->localIdentifier->_value);
+            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
             $xml = $this->objconvert->obj2xmlNS($ting);
             $agency = $this->get_agency($param->localIdentifier->_value);
           } 
         }
       }
+//var_dump($param); echo($err); echo($xml); var_dump($cor); var_dump($agency); die();
       if ( $err || ($err = $this->ship_to_ES($xml, $agency)))
         $cor->error->_value = $err;
       else {
@@ -164,7 +160,9 @@ class openSearchAdmin extends webServiceServer {
         elseif (empty($record->_value->identifier)) 
           $cor->error->_value = "no_identifier_in_object_record";
         else {
-          $this->set_record_identifier(&$record->_value->identifier, $param->localIdentifier->_value);
+          $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+          $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
+          //$this->set_record_identifier(&$record->_value->identifier, $param->localIdentifier->_value);
           $ting->container->_value->record = &$record;
           $ting->container->_namespace = $this->xmlns["ting"];
           $xml = $this->objconvert->obj2xmlNS($ting);
@@ -236,9 +234,11 @@ class openSearchAdmin extends webServiceServer {
           }
   // make/change ac-identifier to new one
           if (empty($err)) {
-            $agency = $param->agencyId->_value;
-            $object_identifier = $agency . ":" . $this->get_identifier($param->objectIdentifier->_value);
-            $this->set_record_identifier(&$param->record->_value->identifier, $object_identifier);
+            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->objectIdentifier->_value, "oso");
+            $agency = $this->get_agency($param->objectIdentifier->_value);
+            //$object_identifier = $agency . ":" . $this->get_identifier($param->objectIdentifier->_value);
+            //$this->set_record_identifier(&$param->record->_value->identifier, $object_identifier);
             $xml = $this->objconvert->obj2xmlNS($ting);
           } 
         }
@@ -419,79 +419,97 @@ class openSearchAdmin extends webServiceServer {
       $rec_control = html_entity_decode(sprintf($this->config->get_value("xml_control","setup"), $agency, 'dan', $database_name));
       $oci = new Oci($this->config->get_value("es_credentials","setup"));
       $oci->set_charset("UTF8");
-      $oci->connect();
-      if ($err = $oci->get_error_string()) {
-        $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI connect error: " . $err);
+      try { $oci->connect(); }
+      catch (ociException $e) {
+        verbose::log(FATAL, "OpenSearchAdmin:: OCI connect error: " . $oci->get_error_string());
         return "error_reaching_es_database";
-      } else {
+      }
+      try { 
         $oci->set_query("SELECT taskpackageRefSeq.nextval FROM dual");
         $val = $oci->fetch_into_assoc();
-        if ($tgt_ref = $val["NEXTVAL"]) {
-          $pck_type = 5;
-          $pck_name = $tgt_ref;
-          $userid = $this->config->get_value("es_userid", "setup");
-          $creator = $this->config->get_value("es_creator", "setup");
-          $oci->bind("bind_pck_type", &$pck_type);
-          $oci->bind("bind_pck_name", &$pck_name);
-          $oci->bind("bind_tgt_ref", &$tgt_ref);
-          $oci->bind("bind_userid", &$userid);
-          $oci->bind("bind_creator", &$creator);
+      } catch (ociException $e) {
+        verbose::log(FATAL, "OpenSearchAdmin:: OCI fetch nextval error: " . $oci->get_error_string());
+        return "error_reaching_es_database";
+      }
+      if ($tgt_ref = $val["NEXTVAL"]) {
+        $pck_type = 5;
+        $pck_name = $tgt_ref;
+        $userid = $this->config->get_value("es_userid", "setup");
+        $creator = $this->config->get_value("es_creator", "setup");
+        $oci->bind("bind_pck_type", &$pck_type);
+        $oci->bind("bind_pck_name", &$pck_name);
+        $oci->bind("bind_tgt_ref", &$tgt_ref);
+        $oci->bind("bind_userid", &$userid);
+        $oci->bind("bind_creator", &$creator);
+        try {
           $oci->set_query("INSERT INTO taskpackage 
                              (packagetype, packageName, userid, targetReference, creator)
                            VALUES (:bind_pck_type, :bind_pck_name, :bind_userid, :bind_tgt_ref, :bind_creator)");
-          if ($err = $oci->get_error_string()) {
-            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskpackage error: " . $err);
-            $oci->rollback();
-            return "error_writing_es_databse";
-          }
+        } catch (ociException $e) {
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI insert into taskpackage error: " . $oci->get_error_string());
+          $oci->rollback();
+          return "error_writing_es_database";
+        }
 
-          $schema = $this->config->get_value("es_schema", "setup");
-          $elementSetName = $this->config->get_value("es_elementSetName", "setup");
-          $es_action = $this->config->get_value("es_action", "setup");
-          $oci->bind("bind_tgt_ref", &$tgt_ref);
-          $oci->bind("bind_action", &$es_action);
-          $oci->bind("bind_databaseName", &$database_name);
-          $oci->bind("bind_schema", &$schema);
-          $oci->bind("bind_elementSetName", &$elementSetName);
+        $schema = $this->config->get_value("es_schema", "setup");
+        $elementSetName = $this->config->get_value("es_elementSetName", "setup");
+        $es_action = $this->config->get_value("es_action", "setup");
+        $oci->bind("bind_tgt_ref", &$tgt_ref);
+        $oci->bind("bind_action", &$es_action);
+        $oci->bind("bind_databaseName", &$database_name);
+        $oci->bind("bind_schema", &$schema);
+        $oci->bind("bind_elementSetName", &$elementSetName);
+        try {
           $oci->set_query("INSERT INTO taskspecificUpdate
                              (targetReference, action, databaseName, schema, elementSetName)
                            VALUES (:bind_tgt_ref, :bind_action, :bind_databaseName, :bind_schema, :bind_elementSetName)");
-          if ($err = $oci->get_error_string()) {
-            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into taskspecificUpdate error: " . $err);
-            $oci->rollback();
-            return "error_writing_es_databse";
-          }
+        } catch (ociException $e) {
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI insert into taskspecificUpdate error: " . $oci->get_error_string());
+          $oci->rollback();
+          return "error_writing_es_database";
+        }
 
-          $lbnr = 0;
-          $oci->bind("bind_tgt_ref", &$tgt_ref);
-          $oci->bind("bind_lbnr", &$lbnr);
-          $oci->bind("bind_supplementalid3", $rec_control);
-          if (!$rec_lob = $oci->create_lob()) die("cannot create LOB");
-          $oci->bind("bind_rec_lob", &$rec_lob, -1, OCI_B_BLOB);
+        $lbnr = 0;
+        $oci->bind("bind_tgt_ref", &$tgt_ref);
+        $oci->bind("bind_lbnr", &$lbnr);
+        $oci->bind("bind_supplementalid3", $rec_control);
+        try { $rec_lob = $oci->create_lob(); }
+        catch (ociException $e) {
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI cannot create LOB error: " . $oci->get_error_string());
+          $oci->rollback();
+          return "error_writing_es_database";
+        }
+        $oci->bind("bind_rec_lob", &$rec_lob, -1, OCI_B_BLOB);
+        try {
           $oci->set_query("INSERT INTO suppliedrecords
-                             (targetreference, lbnr, supplementalid3, record)
+                           (targetreference, lbnr, supplementalid3, record)
                            VALUES (:bind_tgt_ref, :bind_lbnr, :bind_supplementalid3, EMPTY_BLOB())
                            RETURNING record into :bind_rec_lob");
-          if ($err = $oci->get_error_string()) {
-            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI insert into suppliedrecords error: " . $err);
-            $oci->rollback();
-            return "error_writing_es_databse";
-          }
-          if ($rec_lob->save($rec))
-            $oci->commit();
-          else {
-            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI save blob into suppliedrecords error: " . $err);
-            $oci->rollback();
-            return "error_writing_es_databse";
-          }
-          if ($err = $oci->get_error_string()) {
-            $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI commit error: " . $err);
-            return "error_writing_es_databse";
+        } catch (ociException $e) {
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI insert into suppliedrecords error: " . $oci->get_error_string());
+          $oci->rollback();
+          return "error_writing_es_database";
+        }
+        if ($rec_lob->save($rec)) {
+          try { $oci->commit(); }
+          catch (ociException $e) {
+            verbose::log(FATAL, "OpenSearchAdmin:: OCI commit error: " . $oci->get_error_string());
           }
         } else {
-          $this->verbose->log(FATAL, "OpenSearchAdmin:: OCI nextval error: " . $err);
-          return "error_fetching_taskpackage_number";
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI save blob into suppliedrecords error: " . $err);
+          try { $oci->rollback(); }
+          catch (ociException $e) {
+            verbose::log(FATAL, "OpenSearchAdmin:: OCI rollback error: " . $oci->get_error_string());
+          }
+          return "error_writing_es_database";
         }
+        if ($err = $oci->get_error_string()) {
+          verbose::log(FATAL, "OpenSearchAdmin:: OCI commit error: " . $err);
+          return "error_writing_es_database";
+        }
+      } else {
+        verbose::log(FATAL, "OpenSearchAdmin:: OCI nextval error: " . $err);
+        return "error_fetching_taskpackage_number";
       }
     } else
       return "unknown_agency";
@@ -568,9 +586,9 @@ class openSearchAdmin extends webServiceServer {
 
  /** \brief 
   */
-  private function make_identifier_obj($local_id, $pref = "") {
+  private function make_identifier_obj($local_id, $ns_pref = "") {
     list($agency, $rec_id) = explode(":", $local_id);
-    $identifier->_namespace = empty($pref) ? $this->xmlns["ac"] : $this->xmlns[$pref];
+    $identifier->_namespace = empty($ns_pref) ? $this->xmlns["ac"] : $this->xmlns[$ns_pref];
     $identifier->_value = $rec_id . "|" . $agency;
     return $identifier;
   }
