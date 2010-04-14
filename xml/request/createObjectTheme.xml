@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
 <ns1:createObjectRequest>
+  <ns1:authentication>
+    <ns1:groupIdAut>150013</ns1:groupIdAut>
+    <ns1:passwordAut>?</ns1:passwordAut>
+    <ns1:userIdAut>searchId</ns1:userIdAut>
+  </ns1:authentication>
   <ns1:theme>
-    <ns1:themeIdentifier>150013:1234</ns1:themeIdentifier>
+    <ns1:themeIdentifier>1234</ns1:themeIdentifier>
     <ns1:themeName>Tema-navn</ns1:themeName>
   </ns1:theme>
 </ns1:createObjectRequest>
