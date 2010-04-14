@@ -87,7 +87,7 @@ logfile = /tmp/some_log_file
 ;   WARNING - simple warnings
 ;   ERROR   - errors in response
 ;   FATAL   - major errors
-;   STAT    - Statístical logging
+;   STAT    - Statistical logging
 ;   TIMER   - timer logging
 ;   TRACE   - program trace
 ;   DEBUG   - debugging info
