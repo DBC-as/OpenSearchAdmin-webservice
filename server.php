@@ -47,10 +47,10 @@ class openSearchAdmin extends webServiceServer {
  /** \brief 
   *
   * errorType:
+  * - authentication_error
   * - service_unavailable
   * - error_in_request
   * - operation_not_allowed_on_object
-  * - relation_cannot_be_created
   * - relation_cannot_be_deleted
   */
 
@@ -79,10 +79,12 @@ class openSearchAdmin extends webServiceServer {
       if ($param->theme) {
         if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
           $err = "error_in_theme_identifier";
+        elseif ($this->object_exists($param->theme->_value->themeIdentifier->_value))
+          $err = "error_identifier_exists";
         else {
           $record->_namespace = $this->xmlns["oso"];
           $record->_value->type->_namespace = $this->xmlns["oso"];
-          $record->_value->type->_value = $param->theme->_value->themeName->_value;
+          $record->_value->type->_value = "theme";
           $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, "oso");
           $record->_value->themeName->_namespace = $this->xmlns["oso"];
           $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
@@ -99,6 +101,8 @@ class openSearchAdmin extends webServiceServer {
       } else {
         if (!$this->is_local_identifier($param->localIdentifier->_value))
           $err = "error_in_local_identifier";
+        elseif ($this->object_exists($param->localIdentifier->_value))
+          $err = "error_identifier_exists";
         else {
           $ting->container->_value->record = &$param->record;
           $ting->container->_namespace = $this->xmlns["ting"];
@@ -152,6 +156,10 @@ class openSearchAdmin extends webServiceServer {
         $cor->error->_value = "error_in_local_identifier";
       elseif (!$this->is_identifier($param->objectIdentifier->_value))
         $cor->error->_value = "error_in_object_identifier";
+      elseif ($this->object_exists($param->localIdentifier->_value))
+        $cor->error->_value = "error_identifier_exists";
+      elseif (!$this->object_exists($param->objectIdentifier->_value))
+        $cor->error->_value = "error_fetching_object_record";
       elseif ($copyobj = $this->object_get($param->objectIdentifier->_value)) {
         $xmlobj = $this->xmlconvert->soap2obj($copyobj);
         $record = &$xmlobj->container->_value->record;
@@ -273,7 +281,8 @@ class openSearchAdmin extends webServiceServer {
     else {
       if (!$this->is_identifier($param->objectIdentifier->_value))
         $dor->error->_value = "error_in_object_identifier";
-      elseif ($copyobj = $this->object_get($param->objectIdentifier->_value)) {
+      elseif ($this->object_exists($param->objectIdentifier->_value)) {
+        $copyobj = $this->object_get($param->objectIdentifier->_value);
         $delete_record->_namespace = $this->xmlns["dkabm"];
         $delete_record->_value->identifier = $this->make_identifier_obj($param->objectIdentifier->_value, "ac");
         $ting->container->_value->record = &$delete_record;
