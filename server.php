@@ -125,7 +125,7 @@ class openSearchAdmin extends webServiceServer {
       }
     }
     //var_dump($param); die();
-    verbose::log(TIMER, "createObject:: " . $this->watch->dump());
+    // verbose::log(TIMER, "createObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -178,7 +178,7 @@ class openSearchAdmin extends webServiceServer {
         $cor->error->_value = "error_fetching_object_record";
     }
     //var_dump($ret); var_dump($param); die();
-    verbose::log(TIMER, "copyObject:: " . $this->watch->dump());
+    // verbose::log(TIMER, "copyObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -251,7 +251,7 @@ class openSearchAdmin extends webServiceServer {
       }
     }
     //var_dump($param); die();
-    verbose::log(TIMER, "updateObject:: " . $this->watch->dump());
+    // verbose::log(TIMER, "updateObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -288,7 +288,7 @@ class openSearchAdmin extends webServiceServer {
         $dor->error->_value = "error_fetching_object_record";
     }
     //var_dump($ret); var_dump($param); die();
-    verbose::log(TIMER, "deleteObject:: " . $this->watch->dump());
+    // verbose::log(TIMER, "deleteObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -347,7 +347,7 @@ class openSearchAdmin extends webServiceServer {
     }
 //var_dump($param);
 //var_dump($ret); die();
-    verbose::log(TIMER, "createRelation:: " . $this->watch->dump());
+    // verbose::log(TIMER, "createRelation:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -402,7 +402,7 @@ class openSearchAdmin extends webServiceServer {
     }
 //var_dump($param);
 //var_dump($ret); die();
-    verbose::log(TIMER, "deleteRelation:: " . $this->watch->dump());
+    // verbose::log(TIMER, "deleteRelation:: " . $this->watch->dump());
     return $ret;
   }
 
