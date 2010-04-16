@@ -95,6 +95,9 @@ logfile = /tmp/some_log_file
 ;   OCI     - oracle
 verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 
+; format for automatic timer dump %s is the soap-action used
+dump_timer = SearchAdmin(%s)
+
 
 [aaa]
 ; aaa Authentication, Access control and Accounting
@@ -102,7 +105,7 @@ verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 ; the FORS-server or aaa_ip_rights below
 ;
 ; oci credentials for FORS server
-aaa_credentials = foo/bar@foobar.dbc.dk
+;aaa_credentials = foo/bar@foobar.dbc.dk
 ; memcache server - use localhost in one-webserver environment
 ;aaa_cache_address = localhost:11211
 ; number of seconds to cache authentication and access rights info
