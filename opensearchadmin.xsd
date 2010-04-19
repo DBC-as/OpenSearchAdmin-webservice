@@ -279,6 +279,7 @@ You should have received a copy of the GNU Affero General Public License along w
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="authentication_error"/>
 			<xs:enumeration value="error_fetching_object_record"/>
+			<xs:enumeration value="error_fetching_theme_record"/>
 			<xs:enumeration value="error_fetching_taskpackage_number"/>
 			<xs:enumeration value="error_identifier_exists"/>
 			<xs:enumeration value="error_in_local_identifier"/>
