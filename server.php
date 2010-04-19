@@ -79,7 +79,7 @@ class openSearchAdmin extends webServiceServer {
       if ($param->theme) {
         if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
           $err = "error_in_theme_identifier";
-        elseif ($this->object_exists($param->theme->_value->themeIdentifier->_value))
+        elseif (!$this->empty_theme($param->theme->_value->themeIdentifier->_value))
           $err = "error_identifier_exists";
         else {
           $record->_namespace = $this->xmlns["oso"];
@@ -101,7 +101,7 @@ class openSearchAdmin extends webServiceServer {
       } else {
         if (!$this->is_local_identifier($param->localIdentifier->_value))
           $err = "error_in_local_identifier";
-        elseif ($this->object_exists($param->localIdentifier->_value))
+        elseif (!$this->empty_dkabm($param->localIdentifier->_value))
           $err = "error_identifier_exists";
         else {
           $ting->container->_value->record = &$param->record;
@@ -156,24 +156,37 @@ class openSearchAdmin extends webServiceServer {
         $cor->error->_value = "error_in_local_identifier";
       elseif (!$this->is_identifier($param->objectIdentifier->_value))
         $cor->error->_value = "error_in_object_identifier";
-      elseif ($this->object_exists($param->localIdentifier->_value))
-        $cor->error->_value = "error_identifier_exists";
-      elseif (!$this->object_exists($param->objectIdentifier->_value))
+      elseif (!($copyobj = $this->object_get($param->objectIdentifier->_value)))
         $cor->error->_value = "error_fetching_object_record";
-      elseif ($copyobj = $this->object_get($param->objectIdentifier->_value)) {
+      else {
         $xmlobj = $this->xmlconvert->soap2obj($copyobj);
-        $record = &$xmlobj->container->_value->record;
-        if (empty($record)) 
+        if ($theme = &$xmlobj->container->_value->object) {
+          if (!$this->empty_theme($param->localIdentifier->_value))
+            $cor->error->_value = "error_identifier_exists";
+          elseif ($this->empty_theme($param->objectIdentifier->_value))
+            $cor->error->_value = "error_fetching_object_record";
+          else {
+            $ting->container->_value->object = &$theme;
+            $ting->container->_namespace = $this->xmlns["ting"];
+            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
+            $xml = $this->objconvert->obj2xmlNS($ting);
+          }
+        } elseif ($record = &$xmlobj->container->_value->record) {
+          if (!$this->empty_dkabm($param->localIdentifier->_value))
+            $cor->error->_value = "error_identifier_exists";
+          elseif ($this->empty_dkabm($param->objectIdentifier->_value))
+            $cor->error->_value = "error_fetching_object_record";
+          else {
+            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
+            $ting->container->_value->record = &$record;
+            $ting->container->_namespace = $this->xmlns["ting"];
+            $xml = $this->objconvert->obj2xmlNS($ting);
+          }
+        } else
           $cor->error->_value = "no_record_in_object";
-        elseif (empty($record->_value->identifier)) 
-          $cor->error->_value = "no_identifier_in_object_record";
-        else {
-          $ting->container->_value->object->_namespace = $this->xmlns["oso"];
-          $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
-          //$this->set_record_identifier(&$record->_value->identifier, $param->localIdentifier->_value);
-          $ting->container->_value->record = &$record;
-          $ting->container->_namespace = $this->xmlns["ting"];
-          $xml = $this->objconvert->obj2xmlNS($ting);
+        if ($xml) {
           $agency = $this->get_agency($param->localIdentifier->_value);
           if ($err = $this->ship_to_ES($xml, $agency))
             $cor->error->_value = $err;
@@ -182,8 +195,7 @@ class openSearchAdmin extends webServiceServer {
             $cor->objectIdentifier->_value = $param->localIdentifier->_value;
           }
         }
-      } else
-        $cor->error->_value = "error_fetching_object_record";
+      }
     }
     //var_dump($ret); var_dump($param); die();
     // verbose::log(TIMER, "copyObject:: " . $this->watch->dump());
@@ -217,11 +229,17 @@ class openSearchAdmin extends webServiceServer {
       if ($param->theme) {
         if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
           $err = "error_in_theme_identifier";
+        elseif (!$this->object_exists($param->theme->_value->themeIdentifier->_value))
+          $err = "error_fetching_theme_record";
         else {
+          $record->_namespace = $this->xmlns["oso"];
+          $record->_value->type->_namespace = $this->xmlns["oso"];
+          $record->_value->type->_value = "theme";
+          $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, "oso");
+          $record->_value->themeName->_namespace = $this->xmlns["oso"];
           $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
-          $this->set_record_identifier(&$record->_value->identifier, $param->theme->_value->themeIdentifier->_value);
-          $ting->container->_value->record = &$record;
           $ting->container->_namespace = $this->xmlns["ting"];
+          $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
           $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
         }
@@ -232,6 +250,8 @@ class openSearchAdmin extends webServiceServer {
       } else {
         if (!$this->is_local_identifier($param->objectIdentifier->_value))
           $err = "error_in_object_identifier";
+        elseif (!$this->object_exists($param->objectIdentifier->_value))
+          $err = "error_fetching_object_record";
         else {
           $ting->container->_value->record = &$param->record;
           $ting->container->_namespace = $this->xmlns["ting"];
@@ -245,8 +265,6 @@ class openSearchAdmin extends webServiceServer {
             $ting->container->_value->object->_namespace = $this->xmlns["oso"];
             $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->objectIdentifier->_value, "oso");
             $agency = $this->get_agency($param->objectIdentifier->_value);
-            //$object_identifier = $agency . ":" . $this->get_identifier($param->objectIdentifier->_value);
-            //$this->set_record_identifier(&$param->record->_value->identifier, $object_identifier);
             $xml = $this->objconvert->obj2xmlNS($ting);
           } 
         }
@@ -659,7 +677,11 @@ class openSearchAdmin extends webServiceServer {
   */
   private function object_get($obj_id) {
     $f_req = sprintf($this->config->get_value("fedora_get_raw"), $obj_id);
-    return $this->curl->get($f_req);
+    $obj = $this->curl->get($f_req);
+    if ($obj && $this->curl->get_status('http_code') < 300) 
+      return $obj;
+    else
+      return FALSE;
   }
 
 
@@ -673,6 +695,45 @@ class openSearchAdmin extends webServiceServer {
       return FALSE;
   }
 
+
+ /** \brief 
+  */
+  private function empty_theme($theme_id) {
+    return $this->empty_obj($theme_id, "object", "identifier", $this->xmlns["oso"]);
+  }
+
+ /** \brief 
+  */
+  private function empty_dkabm($dkabm_id) {
+    return $this->empty_obj($dkabm_id, "record", "identifier", $this->xmlns["ac"]);
+  }
+
+ /** \brief empty_obj Deleted records contain only one field - check for this
+  *
+  * @param id Fedora-pid of object (string)
+  * @param rec_type object or record (string)
+  * @param id_name name of identifier tag (string)
+  * @param id_namespace of identifier tag (string)
+  *
+  * $return (boolean)
+  * 
+  * Returns
+  */
+  private function empty_obj($id, $rec_type, $id_name, $id_namespace) {
+    if ($obj = $this->object_get($id)) {
+      $xmlobj = $this->xmlconvert->soap2obj($obj);
+      if ($xmlobj->container->_value)
+        foreach ($xmlobj->container->_value as $type => $rec) {
+          if ($type <> $rec_type)
+            return FALSE;
+          foreach ($rec->_value as $tag => $fld)
+            if ($tag <> $id_name || $fld->_namespace <> $id_namespace)
+              return FALSE;
+        }
+    }
+
+    return TRUE;
+  }
 
  /** \brief 
   */
