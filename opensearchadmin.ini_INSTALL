@@ -141,35 +141,41 @@ soap_footer = </SOAP-ENV:Body></SOAP-ENV:Envelope>
 ; </thisSoapAction>
 ; from url: action=thisSoapAction&some.number=nn&another.number=mm
 ;
-;
-; action[ALL] defines parameter used in all defined soap-actions
-;
-action[ALL][] = outputType
-action[ALL][] = callback
-
 action[createObject][] = localIdentifier
 action[createObject][] = record
 action[createObject][theme] = themeIdentifier
 action[createObject][theme] = themeName
+action[createObject][] = outputType
+action[createObject][] = callback
 
 action[copyObject][] = localIdentifier
 action[copyObject][] = objectIdentifier
+action[copyObject][] = outputType
+action[copyObject][] = callback
 
 action[updateObject][] = localIdentifier
 action[updateObject][] = objectIdentifier
 action[updateObject][] = record
 action[updateObject][theme] = themeIdentifier
 action[updateObject][theme] = themeName
+action[updateObject][] = outputType
+action[updateObject][] = callback
 
 action[deleteObject][] = objectIdentifier
+action[deleteObject][] = outputType
+action[deleteObject][] = callback
 
 action[createRelation][] = relationSubject
 action[createRelation][] = relation
 action[createRelation][] = relationObject
+action[createRelation][] = outputType
+action[createRelation][] = callback
 
 action[deleteRelation][] = relationSubject
 action[deleteRelation][] = relation
 action[deleteRelation][] = relationObject
+action[deleteRelation][] = outputType
+action[deleteRelation][] = callback
 
 [howru]
 ;test[] = createRelation&relationSubject=11&relation=xx&relationObject=22
