@@ -160,19 +160,7 @@ class openSearchAdmin extends webServiceServer {
         $cor->error->_value = "error_fetching_object_record";
       else {
         $xmlobj = $this->xmlconvert->soap2obj($copyobj);
-        if ($theme = &$xmlobj->container->_value->object) {
-          if (!$this->empty_theme($param->localIdentifier->_value))
-            $cor->error->_value = "error_identifier_exists";
-          elseif ($this->empty_theme($param->objectIdentifier->_value))
-            $cor->error->_value = "error_fetching_object_record";
-          else {
-            $ting->container->_value->object = &$theme;
-            $ting->container->_namespace = $this->xmlns["ting"];
-            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
-            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
-            $xml = $this->objconvert->obj2xmlNS($ting);
-          }
-        } elseif ($record = &$xmlobj->container->_value->record) {
+        if ($xmlobj->container->_value->record) {				// dkabm record
           if (!$this->empty_dkabm($param->localIdentifier->_value))
             $cor->error->_value = "error_identifier_exists";
           elseif ($this->empty_dkabm($param->objectIdentifier->_value))
@@ -180,8 +168,20 @@ class openSearchAdmin extends webServiceServer {
           else {
             $ting->container->_value->object->_namespace = $this->xmlns["oso"];
             $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
-            $ting->container->_value->record = &$record;
+            $ting->container->_value->record = &$xmlobj->container->_value->record;
             $ting->container->_namespace = $this->xmlns["ting"];
+            $xml = $this->objconvert->obj2xmlNS($ting);
+          }
+        } elseif ($xmlobj->container->_value->object) {				// theme object
+          if (!$this->empty_theme($param->localIdentifier->_value))
+            $cor->error->_value = "error_identifier_exists";
+          elseif ($this->empty_theme($param->objectIdentifier->_value))
+            $cor->error->_value = "error_fetching_object_record";
+          else {
+            $ting->container->_value->object = &$xmlobj->container->_value->object;
+            $ting->container->_namespace = $this->xmlns["ting"];
+            $ting->container->_value->object->_namespace = $this->xmlns["oso"];
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
             $xml = $this->objconvert->obj2xmlNS($ting);
           }
         } else
@@ -300,7 +300,6 @@ class openSearchAdmin extends webServiceServer {
       if (!$this->is_identifier($param->objectIdentifier->_value))
         $dor->error->_value = "error_in_object_identifier";
       elseif ($this->object_exists($param->objectIdentifier->_value)) {
-        $copyobj = $this->object_get($param->objectIdentifier->_value);
         $delete_record->_namespace = $this->xmlns["dkabm"];
         $delete_record->_value->identifier = $this->make_identifier_obj($param->objectIdentifier->_value, "ac");
         $ting->container->_value->record = &$delete_record;
