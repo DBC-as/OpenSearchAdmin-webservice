@@ -124,12 +124,12 @@ class openSearchAdmin extends webServiceServer {
       if ( $err || ($err = $this->ship_to_ES($xml, $agency)))
         $cor->error->_value = $err;
       else {
+        verbose::log(TRACE, "createObject:: agency: $agency xml: " . $xml);
         $cor->status->_value = "object_created";
         $cor->objectIdentifier->_value = $param->localIdentifier->_value;
       }
     }
     //var_dump($param); die();
-    // verbose::log(TIMER, "createObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -191,6 +191,7 @@ class openSearchAdmin extends webServiceServer {
           if ($err = $this->ship_to_ES($xml, $agency))
             $cor->error->_value = $err;
           else {
+            verbose::log(TRACE, "copyObject:: agency: $agency xml: " . $xml);
             $cor->status->_value = "object_copied";
             $cor->objectIdentifier->_value = $param->localIdentifier->_value;
           }
@@ -198,7 +199,6 @@ class openSearchAdmin extends webServiceServer {
       }
     }
     //var_dump($ret); var_dump($param); die();
-    // verbose::log(TIMER, "copyObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -272,12 +272,12 @@ class openSearchAdmin extends webServiceServer {
       if ( $err || ($err = $this->ship_to_ES($xml, $agency)))
         $uor->error->_value = $err;
       else {
+        verbose::log(TRACE, "updateObject:: agency: $agency xml: " . $xml);
         $uor->status->_value = "object_updated";
         $uor->objectIdentifier->_value = $param->localIdentifier->_value;
       }
     }
     //var_dump($param); die();
-    // verbose::log(TIMER, "updateObject:: " . $this->watch->dump());
     return $ret;
   }
 
@@ -308,13 +308,14 @@ class openSearchAdmin extends webServiceServer {
         $agency = $this->get_agency($param->objectIdentifier->_value);
         if ($err = $this->ship_to_ES($xml, $agency))
           $dor->error->_value = $err;
-        else
+        else {
+          verbose::log(TRACE, "deleteObject:: agency: $agency xml: " . $xml);
           $dor->status->_value = "object_deleted";
+        }
       } else
         $dor->error->_value = "error_fetching_object_record";
     }
     //var_dump($ret); var_dump($param); die();
-    // verbose::log(TIMER, "deleteObject:: " . $this->watch->dump());
     return $ret;
   }
 
