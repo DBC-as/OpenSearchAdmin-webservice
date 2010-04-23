@@ -661,7 +661,8 @@ class openSearchAdmin extends webServiceServer {
   */
   private function is_local_identifier($id) {
     list($agency, $rec_id) = explode(":", $id);
-    return ((strlen($agency) == 6) && is_numeric($agency) && is_numeric($rec_id));
+    return (!empty($agency) && !empty($rec_id));
+    //return ((strlen($agency) == 6) && is_numeric($agency) && is_numeric($rec_id));
   }
 
 
@@ -669,7 +670,8 @@ class openSearchAdmin extends webServiceServer {
   */
   private function is_identifier($id) {
     list($agency, $rec_id) = explode(":", $id);
-    return (!empty($agency) && is_numeric($rec_id));
+    return (!empty($agency) && !empty($rec_id));
+    //return (!empty($agency) && is_numeric($rec_id));
   }
 
 
