@@ -82,17 +82,18 @@ class openSearchAdmin extends webServiceServer {
         elseif (!$this->empty_theme($param->theme->_value->themeIdentifier->_value))
           $err = "error_identifier_exists";
         else {
+          $oid_value = &$param->theme->_value->themeIdentifier->_value;
           $record->_namespace = $this->xmlns["oso"];
           $record->_value->type->_namespace = $this->xmlns["oso"];
           $record->_value->type->_value = "theme";
-          $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, "oso");
+          $record->_value->identifier = $this->make_identifier_obj($oid_value, "oso");
           $record->_value->themeName->_namespace = $this->xmlns["oso"];
           $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
           $ting->container->_namespace = $this->xmlns["ting"];
           $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
   
-          $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
+          $agency = $this->get_agency($oid_value);
         }
         //echo str_replace("?", ".", $xml);
         //var_dump($ting);
@@ -104,6 +105,7 @@ class openSearchAdmin extends webServiceServer {
         elseif (!$this->empty_dkabm($param->localIdentifier->_value))
           $err = "error_identifier_exists";
         else {
+          $oid_value = &$param->localIdentifier->_value;
           $ting->container->_value->record = &$param->record;
           $ting->container->_namespace = $this->xmlns["ting"];
           if ($this->validate["dkabm"]) {
@@ -114,9 +116,9 @@ class openSearchAdmin extends webServiceServer {
     // set oso-identifier
           if (empty($err)) {
             $ting->container->_value->object->_namespace = $this->xmlns["oso"];
-            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($param->localIdentifier->_value, "oso");
+            $ting->container->_value->object->_value->identifier = $this->make_identifier_obj($oid_value, "oso");
             $xml = $this->objconvert->obj2xmlNS($ting);
-            $agency = $this->get_agency($param->localIdentifier->_value);
+            $agency = $this->get_agency($oid_value);
           } 
         }
       }
@@ -126,7 +128,7 @@ class openSearchAdmin extends webServiceServer {
       else {
         verbose::log(TRACE, "createObject:: agency: $agency xml: " . $xml);
         $cor->status->_value = "object_created";
-        $cor->objectIdentifier->_value = $param->localIdentifier->_value;
+        $cor->objectIdentifier->_value = $oid_value;
       }
     }
     //var_dump($param); die();
