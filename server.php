@@ -748,8 +748,34 @@ class openSearchAdmin extends webServiceServer {
         $ret[urldecode($key)] = urldecode($val);
     return $ret;
   }
-}
 
+  /** \brief Echos config-settings
+   *
+   */
+  public function show_info() {
+    echo "<pre>";
+    echo "version              " . $this->config->get_value("version", "setup") . "<br/>";
+    echo "logfile              " . $this->config->get_value("logfile", "setup") . "<br/>";
+    echo "verbose              " . $this->config->get_value("verbose", "setup") . "<br/>";
+    echo "fedora_get           " . $this->config->get_value("fedora_get", "setup") . "<br/>";
+    echo "fedora_get_rels_ext  " . $this->config->get_value("fedora_get_rels_ext", "setup") . "<br/>";
+    echo "fedora_get_raw       " . $this->config->get_value("fedora_get_raw", "setup") . "<br/>";
+    echo "fedora_API_M         " . $this->config->get_value("fedora_API_M", "setup") . "<br/>";
+    echo "es_credentials       " . $this->strip_oci_pwd($this->config->get_value("es_credentials", "setup")) . "<br/>";
+    echo "aaa_credentials      " . $this->strip_oci_pwd($this->config->get_value("aaa_credentials", "aaa")) . "<br/>";
+    echo "</pre>";
+    die();
+  }
+
+  private function strip_oci_pwd($cred) {
+    if (($p1 = strpos($cred, "/")) && ($p2 = strpos($cred, "@")))
+      return substr($cred, 0, $p1) . "/********" . substr($cred, $p2);
+    else
+      return $cred;
+  }
+
+
+}
 /*
  * MAIN
  */
