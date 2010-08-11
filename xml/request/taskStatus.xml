@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin"><SOAP-ENV:Body>
+<ns1:getTaskStatusRequest>
+  <ns1:authentication>
+    <ns1:groupIdAut>150013</ns1:groupIdAut>
+    <ns1:passwordAut>?</ns1:passwordAut>
+    <ns1:userIdAut>searchId</ns1:userIdAut>
+  </ns1:authentication>
+  <ns1:taskStatus>1234</ns1:taskStatus>
+</ns1:getTaskStatusRequest>
+</SOAP-ENV:Body></SOAP-ENV:Envelope>
