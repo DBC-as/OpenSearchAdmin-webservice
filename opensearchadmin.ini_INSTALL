@@ -26,6 +26,7 @@ soapAction[updateObject] = updateObjectRequest
 soapAction[deleteObject] = deleteObjectRequest
 soapAction[createRelation] = createRelationRequest
 soapAction[deleteRelation] = deleteRelationRequest
+soapAction[getTaskStatus] = getTaskStatusRequest
 
 ; prefixes and namespaces
 xmlns[] = http://oss.dbc.dk/ns/opensearchadmin
@@ -51,6 +52,10 @@ fedora_passwd = fedorapasswd
 ; ES database
 es_credentials = foo/bar@foobar.dbc.dk
 
+; list of valid es_format, used as format in xml_control
+es_format[put-agency-here][theme] = theme
+es_format[put-agency-here][dkabm] = pg
+
 ; list of valid agencies and their corresponding databaseName
 es_databaseName[put-agency-here] = and-corresponding-databaseName-here
 
@@ -62,7 +67,7 @@ es_elementSetName = esn
 
 ; valid relations and their reverse relation
 ; namespace should be set in xmlns above
-relation["rev:hasReview"] =
+relation["dbcaddi:hasReview"] = "dbcaddi:isReviewOf"
 relation["dbcaddi:hasCoverImage"] =
 relation["dbcaddi:hasUserCreatedContent"] =
 relation["dbcaddi:hasSoundClip"] =
@@ -70,10 +75,16 @@ relation["dbcaddi:hasDemo"] =
 relation["dbcaddi:hasTrailer"] =
 relation["dbcaddi:hasTutorial"] =
 relation["dbcaddi:hasRingtone"] =
-;relation["dbcaddi:hasTrack"] = dbcaddi:isPartOfAlbum
-;relation["dbcaddi:isPartOfAlbum"] = dbcaddi:hasTrack"
 relation["dbcaddi:hasThemeMember"] = dbcaddi:isPartOfTheme
-relation["dbcaddi:isPartOfTheme"] = dbcaddi:hasThemeMember"
+relation["dbcaddi:isPartOfTheme"] = dbcaddi:hasThemeMember
+relation["dbcbib:hasTrack"] = dbcbib:isPartOfAlbum
+relation["dbcbib:isPartOfAlbum"] = dbcbib:hasTrack
+
+;relation["rev:hasReview"] =
+;relation["fedora:isMemberOfCollection"] =
+;relation["oss:isMemberOfTheme"] =
+;relation["oss:hasCover"] =
+;relation[isMemberOfWork] = hasManifestation
 
 
 ; xml
@@ -107,8 +118,10 @@ dump_timer = SearchAdmin(%s)
 
 [aaa]
 ; aaa Authentication, Access control and Accounting
+;
 ; if aaa_credentials is set, the rights-object is created from
-; the FORS-server or aaa_ip_rights below
+; aaa_ip_rights below if ip-match otherwise it is set from
+; the FORS-server if aaa_credentials contains a valid fors-login
 ;
 ; oci credentials for FORS server
 ;aaa_credentials = foo/bar@foobar.dbc.dk
@@ -182,6 +195,11 @@ action[deleteRelation][] = relation
 action[deleteRelation][] = relationObject
 action[deleteRelation][] = outputType
 action[deleteRelation][] = callback
+
+action[getTaskStatus][] = taskStatus
+action[getTaskStatus][] = outputType
+action[getTaskStatus][] = callback
+
 
 [howru]
 ;test[] = createRelation&relationSubject=11&relation=xx&relationObject=22
