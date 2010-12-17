@@ -50,6 +50,12 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:message name="deleteRelationResponse">
 		<wsdl:part name="body" element="osa:deleteRelationResponse"/>
 	</wsdl:message>
+	<wsdl:message name="getTaskStatusRequest">
+		<wsdl:part name="body" element="osa:getTaskStatusRequest"/>
+	</wsdl:message>
+	<wsdl:message name="getTaskStatusResponse">
+		<wsdl:part name="body" element="osa:getTaskStatusResponse"/>
+	</wsdl:message>
 	<wsdl:portType name="createObjectServicePortType">
 		<wsdl:operation name="createObject">
 			<wsdl:input message="osaw:createObjectRequest"/>
@@ -86,10 +92,16 @@ You should have received a copy of the GNU Affero General Public License along w
 			<wsdl:output message="osaw:deleteRelationResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
+	<wsdl:portType name="getTaskStatusServicePortType">
+		<wsdl:operation name="getTaskStatus">
+			<wsdl:input message="osaw:getTaskStatusRequest"/>
+			<wsdl:output message="osaw:getTaskStatusResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
 	<wsdl:binding name="createObjectServiceSoapBinding" type="osaw:createObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="createObject">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="createObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -101,7 +113,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="copyObjectServiceSoapBinding" type="osaw:copyObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="copyObject">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="copyObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -113,7 +125,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="updateObjectServiceSoapBinding" type="osaw:updateObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="updateObject">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="updateObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -125,7 +137,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="deleteObjectServiceSoapBinding" type="osaw:deleteObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="deleteObject">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="deleteObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -137,7 +149,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="createRelationServiceSoapBinding" type="osaw:createRelationServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="createRelation">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="createRelationRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -149,7 +161,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="deleteRelationServiceSoapBinding" type="osaw:deleteRelationServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="deleteRelation">
-			<soap:operation soapAction="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
 			<wsdl:input name="deleteRelationRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -158,24 +170,39 @@ You should have received a copy of the GNU Affero General Public License along w
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
+	<wsdl:binding name="getTaskStatusServiceSoapBinding" type="osaw:getTaskStatusServicePortType">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="getTaskStatus">
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
+			<wsdl:input name="getTaskStatusRequest">
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="getTaskStatusResponse">
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
 	<wsdl:service name="openSearchAdmin">
 		<wsdl:port name="createObjectServicePortType" binding="osaw:createObjectServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="copyObjectServicePortType" binding="osaw:copyObjectServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="updateObjectServicePortType" binding="osaw:updateObjectServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="deleteObjectServicePortType" binding="osaw:deleteObjectServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="createRelationServicePortType" binding="osaw:createRelationServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="deleteRelationServicePortType" binding="osaw:deleteRelationServiceSoapBinding">
-			<soap:address location="http://didicas.dbc.dk/opensearchadmin"/>
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
+		</wsdl:port>
+		<wsdl:port name="getTaskStatusServicePortType" binding="osaw:getTaskStatusServiceSoapBinding">
+			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
