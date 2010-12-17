@@ -316,7 +316,6 @@ class openSearchAdmin extends webServiceServer {
         $ting->container->_value->record = &$delete_record;
         $ting->container->_value->originalData = &$origdata;
         $xml = $this->objconvert->obj2xmlNS($ting);
-die($xml);
         $agency = $this->get_agency($param->objectIdentifier->_value);
         $rec_format = 'dkabm';
         if ($err = $this->ship_to_ES($xml, $agency, $rec_format))
