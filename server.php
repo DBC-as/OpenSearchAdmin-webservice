@@ -107,7 +107,7 @@ class openSearchAdmin extends webServiceServer {
           $err = 'error_identifier_exists';
         else {
           $oid_value = &$param->localIdentifier->_value;
-          $ting->container->_value->record = &$param->record;
+          $ting->container->_value->record = &$param->object->_value->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
             $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
