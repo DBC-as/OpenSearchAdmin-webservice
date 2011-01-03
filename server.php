@@ -82,13 +82,13 @@ class openSearchAdmin extends webServiceServer {
         elseif (!$this->empty_theme($param->theme->_value->themeIdentifier->_value))
           $err = 'error_identifier_exists';
         else {
-          $oid_value = &$param->theme->_value->themeIdentifier->_value;
+          $oid_value = &$param->object->_value->theme->_value->themeIdentifier->_value;
           $record->_namespace = $this->xmlns['oso'];
           $record->_value->type->_namespace = $this->xmlns['oso'];
           $record->_value->type->_value = 'theme';
           $record->_value->identifier = $this->make_identifier_obj($oid_value, 'oso');
           $record->_value->themeName->_namespace = $this->xmlns['oso'];
-          $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
+          $record->_value->themeName->_value = $param->object->_value->theme->_value->themeName->_value;
           $ting->container->_namespace = $this->xmlns['ting'];
           $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
