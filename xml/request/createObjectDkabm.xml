@@ -8,28 +8,26 @@
   </ns1:authentication>
   <ns1:localIdentifier>150013:11122</ns1:localIdentifier>
 <!-- localIdentifier|groupIdAut overwrites/creates the ac:identifier in the dkabm:record -->
-  <ns1:object>
-    <dkabm:record>
-      <ac:identifier>06594026|870970</ac:identifier> 
-      <ac:source>test</ac:source> 
-      <dc:title>Post fra openSearchAdmin</dc:title> 
-      <dc:creator>Test Testesen</dc:creator> 
-      <dc:subject xsi:type="dkdcplus:DK5">46</dc:subject> 
-      <dc:subject xsi:type="dkdcplus:DK5-Text">Danmark</dc:subject> 
-      <dc:subject xsi:type="dkdcplus:DBCF">geografi</dc:subject> 
-      <dc:subject xsi:type="dkdcplus:DBCF">historie</dc:subject> 
-      <dc:description>1 Fra 15 år</dc:description> 
-      <dc:description>Også udgivet som: Hans@åge Bøggild: Bornholm</dc:description> 
-      <dc:publisher>[Kbh.] Gyldendal</dc:publisher> 
-      <dc:date>1986-1989</dc:date> 
-      <dc:date>1987</dc:date> 
-      <dc:type xsi:type="dkdcplus:BibDK-Type">Bog</dc:type> 
-      <dc:format>10 bind</dc:format> 
-      <dc:format>267 sider</dc:format> 
-      <dc:identifier xsi:type="dkdcplus:ISBN">87-00-81112-2</dc:identifier> 
-      <dcterms:spatial xsi:type="dkdcplus:DBCF">Danmark</dcterms:spatial> 
-      <dcterms:spatial xsi:type="dkdcplus:DBCF">Bornholm</dcterms:spatial> 
-    </dkabm:record>
-  </ns1:object>
+  <dkabm:record>
+    <ac:identifier>06594026|870970</ac:identifier> 
+    <ac:source>test</ac:source> 
+    <dc:title>Post fra openSearchAdmin</dc:title> 
+    <dc:creator>Test Testesen</dc:creator> 
+    <dc:subject xsi:type="dkdcplus:DK5">46</dc:subject> 
+    <dc:subject xsi:type="dkdcplus:DK5-Text">Danmark</dc:subject> 
+    <dc:subject xsi:type="dkdcplus:DBCF">geografi</dc:subject> 
+    <dc:subject xsi:type="dkdcplus:DBCF">historie</dc:subject> 
+    <dc:description>1 Fra 15 år</dc:description> 
+    <dc:description>Også udgivet som: Hans@åge Bøggild: Bornholm</dc:description> 
+    <dc:publisher>[Kbh.] Gyldendal</dc:publisher> 
+    <dc:date>1986-1989</dc:date> 
+    <dc:date>1987</dc:date> 
+    <dc:type xsi:type="dkdcplus:BibDK-Type">Bog</dc:type> 
+    <dc:format>10 bind</dc:format> 
+    <dc:format>267 sider</dc:format> 
+    <dc:identifier xsi:type="dkdcplus:ISBN">87-00-81112-2</dc:identifier> 
+    <dcterms:spatial xsi:type="dkdcplus:DBCF">Danmark</dcterms:spatial> 
+    <dcterms:spatial xsi:type="dkdcplus:DBCF">Bornholm</dcterms:spatial> 
+  </dkabm:record>
 </ns1:createObjectRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>

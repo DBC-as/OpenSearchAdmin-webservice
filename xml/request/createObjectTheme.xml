@@ -6,11 +6,9 @@
     <ns1:passwordAut>?</ns1:passwordAut>
     <ns1:userIdAut>searchId</ns1:userIdAut>
   </ns1:authentication>
-  <ns1:object>
-    <ns1:theme>
-      <ns1:themeIdentifier>150013:1234</ns1:themeIdentifier>
-      <ns1:themeName>Tema-navn</ns1:themeName>
-    </ns1:theme>
-  </ns1:object>
+  <ns1:theme>
+    <ns1:themeIdentifier>150013:1234</ns1:themeIdentifier>
+    <ns1:themeName>Tema-navn</ns1:themeName>
+  </ns1:theme>
 </ns1:createObjectRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>
