@@ -82,13 +82,13 @@ class openSearchAdmin extends webServiceServer {
         elseif (!$this->empty_theme($param->theme->_value->themeIdentifier->_value))
           $err = 'error_identifier_exists';
         else {
-          $oid_value = &$param->object->_value->theme->_value->themeIdentifier->_value;
+          $oid_value = &$param->theme->_value->themeIdentifier->_value;
           $record->_namespace = $this->xmlns['oso'];
           $record->_value->type->_namespace = $this->xmlns['oso'];
           $record->_value->type->_value = 'theme';
           $record->_value->identifier = $this->make_identifier_obj($oid_value, 'oso');
           $record->_value->themeName->_namespace = $this->xmlns['oso'];
-          $record->_value->themeName->_value = $param->object->_value->theme->_value->themeName->_value;
+          $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
           $ting->container->_namespace = $this->xmlns['ting'];
           $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
@@ -107,13 +107,18 @@ class openSearchAdmin extends webServiceServer {
           $err = 'error_identifier_exists';
         else {
           $oid_value = &$param->localIdentifier->_value;
-          $ting->container->_value->record = &$param->object->_value->record;
+          $ting->container->_value->record = &$param->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
             $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
             if (!$this->validate_xml($xml, $this->validate['dkabm']))
               $err = 'error_validating_record';
           }
+/* for next version
+          if (FALSE && $param->object->_value->article) {
+            $ting->container->_value->article = &$param->object->_value->article;
+          }
+*/
     // set oso-identifier
           if (empty($err)) {
             $ting->container->_value->object->_namespace = $this->xmlns['oso'];
