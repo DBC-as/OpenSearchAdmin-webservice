@@ -6,6 +6,6 @@
     <ns1:passwordAut>?</ns1:passwordAut>
     <ns1:userIdAut>searchId</ns1:userIdAut>
   </ns1:authentication>
-  <ns1:taskStatus>1234</ns1:taskStatus>
+  <ns1:taskId>556858</ns1:taskId>
 </ns1:getTaskStatusRequest>
 </SOAP-ENV:Body></SOAP-ENV:Envelope>
