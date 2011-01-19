@@ -110,15 +110,24 @@ class openSearchAdmin extends webServiceServer {
           $ting->container->_value->record = &$param->object->_value->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
-            $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
+            $val->record = &$param->object->_value->record;
+            $xml = $this->objconvert->obj2xmlNS($val);
+            unset($val);
             if (!$this->validate_xml($xml, $this->validate['dkabm']))
               $err = 'error_validating_record';
           }
-/* for next version
-          if (FALSE && $param->object->_value->article) {
+/* for next version */
+          if (TRUE && $param->object->_value->article) {
             $ting->container->_value->article = &$param->object->_value->article;
+            $ting->container->_value->article->_namespace = $this->xmlns['docbook'];
+            if ($this->validate['docbook']) {
+              $val->article = &$param->object->_value->article;
+              $xml = $this->objconvert->obj2xmlNS($val);
+              unset($val);
+              if (!$this->validate_xml($xml, $this->validate['docbook']))
+                $err = 'error_validating_record';
+            }
           }
-*/
     // set oso-identifier
           if (empty($err)) {
             $ting->container->_value->object->_namespace = $this->xmlns['oso'];
@@ -129,7 +138,7 @@ class openSearchAdmin extends webServiceServer {
           } 
         }
       }
-//var_dump($param); echo($err); echo($xml); var_dump($cor); var_dump($agency); die();
+var_dump($param); echo($err); echo($xml); var_dump($cor); var_dump($agency); die();
       if ( $err || ($err = $this->ship_to_ES($xml, $agency, $rec_format)))
         $cor->error->_value = $err;
       else {
