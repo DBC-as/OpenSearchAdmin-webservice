@@ -76,19 +76,19 @@ class openSearchAdmin extends webServiceServer {
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $cor->error->_value = 'authentication_error';
     else {
-      if ($param->theme) {
-        if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
+      if ($param->object->_value->theme) {
+        if (!$this->is_local_identifier($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_in_theme_identifier';
-        elseif (!$this->empty_theme($param->theme->_value->themeIdentifier->_value))
+        elseif (!$this->empty_theme($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_identifier_exists';
         else {
-          $oid_value = &$param->theme->_value->themeIdentifier->_value;
+          $oid_value = &$param->object->_value->theme->_value->themeIdentifier->_value;
           $record->_namespace = $this->xmlns['oso'];
           $record->_value->type->_namespace = $this->xmlns['oso'];
           $record->_value->type->_value = 'theme';
           $record->_value->identifier = $this->make_identifier_obj($oid_value, 'oso');
           $record->_value->themeName->_namespace = $this->xmlns['oso'];
-          $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
+          $record->_value->themeName->_value = $param->object->_value->theme->_value->themeName->_value;
           $ting->container->_namespace = $this->xmlns['ting'];
           $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
@@ -99,7 +99,7 @@ class openSearchAdmin extends webServiceServer {
         //echo str_replace('?', '.', $xml);
         //var_dump($ting);
         //var_dump($ting->container->_value->record->_value);
-        //var_dump($param->theme->_value); die();
+        //var_dump($param->object->_value->theme->_value); die();
       } else {
         if (!$this->is_local_identifier($param->localIdentifier->_value))
           $err = 'error_in_local_identifier';
@@ -107,7 +107,7 @@ class openSearchAdmin extends webServiceServer {
           $err = 'error_identifier_exists';
         else {
           $oid_value = &$param->localIdentifier->_value;
-          $ting->container->_value->record = &$param->record;
+          $ting->container->_value->record = &$param->object->_value->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
             $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
@@ -237,35 +237,35 @@ class openSearchAdmin extends webServiceServer {
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $uor->error->_value = 'authentication_error';
     else {
-      if ($param->theme) {
-        if (!$this->is_local_identifier($param->theme->_value->themeIdentifier->_value))
+      if ($param->object->_value->theme) {
+        if (!$this->is_local_identifier($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_in_theme_identifier';
-        elseif (!$this->object_exists($param->theme->_value->themeIdentifier->_value))
+        elseif (!$this->object_exists($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_fetching_theme_record';
         else {
           $record->_namespace = $this->xmlns['oso'];
           $record->_value->type->_namespace = $this->xmlns['oso'];
           $record->_value->type->_value = 'theme';
-          $record->_value->identifier = $this->make_identifier_obj($param->theme->_value->themeIdentifier->_value, 'oso');
+          $record->_value->identifier = $this->make_identifier_obj($param->object->_value->theme->_value->themeIdentifier->_value, 'oso');
           $record->_value->themeName->_namespace = $this->xmlns['oso'];
-          $record->_value->themeName->_value = $param->theme->_value->themeName->_value;
+          $record->_value->themeName->_value = $param->object->_value->theme->_value->themeName->_value;
           $ting->container->_namespace = $this->xmlns['ting'];
           $ting->container->_value->object = &$record;
           $xml = $this->objconvert->obj2xmlNS($ting);
-          $agency = $this->get_agency($param->theme->_value->themeIdentifier->_value);
+          $agency = $this->get_agency($param->object->_value->theme->_value->themeIdentifier->_value);
           $rec_format = 'theme';
         }
         //echo $xml;
         //var_dump($ting);
         //var_dump($ting->container->_value->record->_value);
-        //var_dump($param->theme->_value); die();
+        //var_dump($param->object->_value->theme->_value); die();
       } else {
         if (!$this->is_local_identifier($param->objectIdentifier->_value))
           $err = 'error_in_object_identifier';
         elseif (!$this->object_exists($param->objectIdentifier->_value))
           $err = 'error_fetching_object_record';
         else {
-          $ting->container->_value->record = &$param->record;
+          $ting->container->_value->record = &$param->object->_value->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
             $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
