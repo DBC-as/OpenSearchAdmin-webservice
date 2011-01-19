@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:ac="http://biblstandard.dk/ac/namespace/" xmlns:dkdcplus="http://biblstandard.dk/abm/namespace/dkdcplus/" xmlns:docbook="http://docbook.org/ns/docbook" xmlns:ns1="http://oss.dbc.dk/ns/opensearchadmin">
+  <SOAP-ENV:Body>
+    <ns1:createObjectRequest>
+      <ns1:authentication>
+        <ns1:groupIdAut>150024</ns1:groupIdAut>
+        <ns1:passwordAut>####</ns1:passwordAut>
+        <ns1:userIdAut>#####</ns1:userIdAut>
+      </ns1:authentication>
+      <ns1:localIdentifier>150024:0000001</ns1:localIdentifier>
+      <ns1:object>
+        <dkabm:record>
+          <ac:source>Biblioteksvagten</ac:source>
+          <dc:title>Bandekrige i Danmark</dc:title>
+          <dc:subject>Kriminalitet</dc:subject>
+          <dc:description>&lt;p&gt;Spørgsmål&lt;/p&gt;&lt;p&gt;Jeg skal skrive projekt om bandekrig i danmark. jeg søger bøger og artikler og hjemmesider om dette emne&lt;/p&gt;&lt;p&gt;Svar&lt;/p&gt;&lt;p&gt;Der findes endnu ikke så mange bøger om bandekrigene i Danmark, da det stadig er et relativt nyt emne. Jeg har fundet en enkelt, som kan være brugbar (se under materialer).&lt;/p&gt;&lt;p&gt;Det bedste bud for materiale om emnet er artikler. For at finde artikler om emnet, er det bedst at bruge &lt;a href=&quot;www.bibliotek.dk&quot;&gt;www.bibliotek.dk&lt;/a&gt; Hvis du opretter dig med et login, og vælger et favoritbibliotek (dit eget lokale bibliotek), så er der mulighed for at se artiklerne direkte med det samme og evt. printe dem. Du finder mange gode og relevante artikler ved at søge på følgende måde: vælg fanen artikler og søg på "bandekrige" som artiklens emne. Derefter vælger du se mere under den enkelte artikel og ude til højre kommer der følgende link "læse artikel fra Infomedia". Du kan også prøve at søge på andre ord, der ligner såsom bander. Det kan måske give et lidt anderledes resultat.&lt;/p&gt;&lt;p&gt;En anden rigtig god kilde er &lt;a href=&quot;www.faktalink.dk&quot;www.faktalink.dk&lt;/a&gt; Det er en betalingsbase, men de har helt sikkert adgang til den på din skole. Hvis du går ind på hjemmesiden og søger på "bander", kommer der en ret stor artikel om bander i Danmark og bandekrigene.&lt;/p&gt;</dc:description>
+          <dc:date>2010</dc:date>
+          <dc:type xsi:type="dkdcplus:BibDK-Type">Spørgsmål og svar</dc:type>
+          <dc:language xsi:type="dcterms:ISO639-2">dan</dc:language>
+          <dc:language>Dansk</dc:language>
+        </dkabm:record>
+        <docbook:article>
+          <docbook:title>Bander i Danmark</docbook:title>
+          <docbook:info>
+            <docbook:publisher>
+              <docbook:publishername>Biblioteksvagten</docbook:publishername>
+            </docbook:publisher>
+          </docbook:info>
+          <docbook:bibliography>
+            <docbook:bibliodiv>
+              <docbook:title>Materialer</docbook:title>
+              <docbook:biblioentry>
+                <docbook:abstract>
+                  <docbook:para>Om kriminelle unge danske og etniske grupper, der har skabt utryghed med bandekrig, overfald og hærværk i en række byer i Danmark. Interviews med de unge, politiet og behandlingssystemet, der forsøger at få de unge på ret køl igen</docbook:para>
+                </docbook:abstract>
+                <docbook:author>
+                  <docbook:personname>Per Straarup Søndergaard</docbook:personname>
+                </docbook:author>
+                <docbook:biblioid>710100:22255177</docbook:biblioid>
+                <docbook:title>Den hårde kerne om bander og kriminelle grupper af unge</docbook:title>
+                <docbook:date>1999</docbook:date>
+                <docbook:publisher>
+                  <docbook:publishername>CDR</docbook:publishername>
+                </docbook:publisher>
+                <docbook:subjectset>
+                  <docbook:subject>
+                    <docbook:subjectterm>Kriminologi. Forbrydelser</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>unge</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>ungdomskriminalitet</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>kriminalitet</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>ungdomsbander</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>bander</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>interviews</docbook:subjectterm>
+                  </docbook:subject>
+                  <docbook:subject>
+                    <docbook:subjectterm>undervisningsmaterialer</docbook:subjectterm>
+                  </docbook:subject>
+                </docbook:subjectset>
+              </docbook:biblioentry>
+            </docbook:bibliodiv>
+            <docbook:bibliodiv>
+              <docbook:title>Links</docbook:title>
+              <docbook:biblioentry>
+                <docbook:title>Bander</docbook:title>
+                <docbook:abstract>
+                  <docbook:para>Der kan være gode oplysninger på denne hjemmeside.</docbook:para>
+                </docbook:abstract>
+                <docbook:bibliorelation>
+                  <docbook:link>http://www.dkr.dk/det_kriminalpraaventive_raad/emner/bander/composite-687.chtm</docbook:link>
+                </docbook:bibliorelation>
+              </docbook:biblioentry>
+            </docbook:bibliodiv>
+          </docbook:bibliography>
+          <docbook:section>
+            <docbook:qandaset>
+              <docbook:qandadiv>
+                <docbook:qandaentry>
+                  <docbook:question>
+                    <docbook:para>Jeg skal skrive projekt om bandekrig i danmark. jeg søger bøger og artikler og hjemmesider om dette emne</docbook:para>
+                  </docbook:question>
+                  <docbook:answer>
+                    <docbook:para>Der findes endnu ikke så mange bøger om bandekrigene i Danmark, da det stadig er et relativt nyt emne. Jeg har fundet en enkelt, som kan være brugbar (se under materialer).</docbook:para>
+                    <docbook:para>For at finde artikler om emnet, er det bedst at bruge &lt;a href=&quot;www.bibliotek.dk&quot;&gt;www.bibliotek.dk&lt;/a&gt; Hvis du opretter dig med et login, og vælger et favoritbibliotek (dit eget lokale bibliotek), så er der mulighed for at se artiklerne direkte med det samme og evt. printe dem. Du finder mange gode og relevante artikler ved at søge på følgende måde: vælg fanen artikler og søg på "bandekrige" som artiklens emne. Derefter vælger du se mere under den enkelte artikel og ude til højre kommer der følgende link "læse artikel fra Infomedia". Du kan også prøve at søge på andre ord, der ligner såsom bander. Det kan måske give et lidt anderledes resultat.</docbook:para>
+                    <docbook:para>En anden rigtig god kilde er &lt;a href=&quot;www.faktalink.dk&quot;www.faktalink.dk&lt;/a&gt; Det er en betalingsbase, men de har helt sikkert adgang til den på din skole. Hvis du går ind på hjemmesiden og søger på "bander", kommer der en ret stor artikel om bander i Danmark og bandekrigene.</docbook:para>
+                  </docbook:answer>
+                </docbook:qandaentry>
+              </docbook:qandadiv>
+            </docbook:qandaset>
+          </docbook:section>
+        </docbook:article>
+      </ns1:object>
+    </ns1:createObjectRequest>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
