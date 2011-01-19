@@ -6,7 +6,6 @@
     <ns1:passwordAut>?</ns1:passwordAut>
     <ns1:userIdAut>searchId</ns1:userIdAut>
   </ns1:authentication>
-  <ns1:agencyId>150013</ns1:agencyId>
   <ns1:objectIdentifier>150013:06594026</ns1:objectIdentifier>
 <!-- objectIdentifier|groupIdAut overwrites/creates the ac:identifier in the dkabm:record -->
   <ns1:object>

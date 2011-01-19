@@ -16,7 +16,10 @@ wsdl = opensearchadmin.wsdl
 ; validate
 ;validate[request] = opensearchadmin.xsd
 ;validate[response] = opensearchadmin.xsd
-validate[dkabm] = opensearchadmin.xsd
+; validate record in createObject
+;validate[dkabm] = opensearchadmin.xsd
+;validate[docbook] = docbook.xsd
+
 
 ; soapActions and their corresponding request structure
 ; Can be found in the wsdl but is stated here for convenience
@@ -41,6 +44,10 @@ xmlns[dcmitype] = http://purl.org/dc/dcmitype/
 xmlns[dcterms] = http://purl.org/dc/terms/
 xmlns[ac] = http://biblstandard.dk/ac/namespace/
 xmlns[dkdcplus] = http://biblstandard.dk/abm/namespace/dkdcplus/
+xmlns[rev] = http://oss.dbc.dk/rdf/dkbib
+xmlns[dbcaddi] = http://oss.dbc.dk/rdf/dbcaddi
+xmlns[docbook] = http://docbook.org/ns/docbook
+
 
 ; fedora urls
 fedora_get = http://someserver.dbc.dk:8080/fedora/get/%s

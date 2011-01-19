@@ -80,7 +80,6 @@ You should have received a copy of the GNU Affero General Public License along w
 		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="osa:authentication" minOccurs="0"/>
-				<xs:element ref="osa:agencyId"/>
 				<xs:element ref="osa:objectIdentifier"/>
 			  <xs:element ref="osa:object"/>
 				<xs:element ref="osa:callback" minOccurs="0"/>
@@ -201,11 +200,6 @@ You should have received a copy of the GNU Affero General Public License along w
 				<xs:element ref="osa:taskStatus"/>
 			</xs:choice>
 		</xs:complexType>
-	</xs:element>
-	<xs:element name="agencyId" type="xs:string">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Identifier of the agency using this service</xs:documentation>
-		</xs:annotation>
 	</xs:element>
 	<xs:element name="authentication">
 		<xs:annotation>
