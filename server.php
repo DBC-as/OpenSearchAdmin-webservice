@@ -138,7 +138,7 @@ class openSearchAdmin extends webServiceServer {
           } 
         }
       }
-var_dump($param); echo($err); echo($xml); var_dump($cor); var_dump($agency); die();
+//var_dump($param); echo($err); echo($xml); var_dump($cor); var_dump($agency); die();
       if ( $err || ($err = $this->ship_to_ES($xml, $agency, $rec_format)))
         $cor->error->_value = $err;
       else {
