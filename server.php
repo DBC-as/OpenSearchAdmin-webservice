@@ -116,8 +116,8 @@ class openSearchAdmin extends webServiceServer {
             if (!$this->validate_xml($xml, $this->validate['dkabm']))
               $err = 'error_validating_record';
           }
-/* for next version */
-          if (TRUE && $param->object->_value->article) {
+
+          if ($param->object->_value->article) {
             $ting->container->_value->article = &$param->object->_value->article;
             $ting->container->_value->article->_namespace = $this->xmlns['docbook'];
             if ($this->validate['docbook']) {
@@ -128,6 +128,7 @@ class openSearchAdmin extends webServiceServer {
                 $err = 'error_validating_record';
             }
           }
+
     // set oso-identifier
           if (empty($err)) {
             $ting->container->_value->object->_namespace = $this->xmlns['oso'];
