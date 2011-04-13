@@ -38,18 +38,6 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:message name="deleteObjectResponse">
 		<wsdl:part name="body" element="osa:deleteObjectResponse"/>
 	</wsdl:message>
-	<wsdl:message name="createRelationRequest">
-		<wsdl:part name="body" element="osa:createRelationRequest"/>
-	</wsdl:message>
-	<wsdl:message name="createRelationResponse">
-		<wsdl:part name="body" element="osa:createRelationResponse"/>
-	</wsdl:message>
-	<wsdl:message name="deleteRelationRequest">
-		<wsdl:part name="body" element="osa:deleteRelationRequest"/>
-	</wsdl:message>
-	<wsdl:message name="deleteRelationResponse">
-		<wsdl:part name="body" element="osa:deleteRelationResponse"/>
-	</wsdl:message>
 	<wsdl:message name="getTaskStatusRequest">
 		<wsdl:part name="body" element="osa:getTaskStatusRequest"/>
 	</wsdl:message>
@@ -78,18 +66,6 @@ You should have received a copy of the GNU Affero General Public License along w
 		<wsdl:operation name="deleteObject">
 			<wsdl:input message="osaw:deleteObjectRequest"/>
 			<wsdl:output message="osaw:deleteObjectResponse"/>
-		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:portType name="createRelationServicePortType">
-		<wsdl:operation name="createRelation">
-			<wsdl:input message="osaw:createRelationRequest"/>
-			<wsdl:output message="osaw:createRelationResponse"/>
-		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:portType name="deleteRelationServicePortType">
-		<wsdl:operation name="deleteRelation">
-			<wsdl:input message="osaw:deleteRelationRequest"/>
-			<wsdl:output message="osaw:deleteRelationResponse"/>
 		</wsdl:operation>
 	</wsdl:portType>
 	<wsdl:portType name="getTaskStatusServicePortType">
@@ -146,30 +122,6 @@ You should have received a copy of the GNU Affero General Public License along w
 			</wsdl:output>
 		</wsdl:operation>
 	</wsdl:binding>
-	<wsdl:binding name="createRelationServiceSoapBinding" type="osaw:createRelationServicePortType">
-		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="createRelation">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
-			<wsdl:input name="createRelationRequest">
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output name="createRelationtResponse">
-				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:binding name="deleteRelationServiceSoapBinding" type="osaw:deleteRelationServicePortType">
-		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="deleteRelation">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/0.4"/>
-			<wsdl:input name="deleteRelationRequest">
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output name="deleteRelationResponse">
-				<soap:body use="literal"/>
-			</wsdl:output>
-		</wsdl:operation>
-	</wsdl:binding>
 	<wsdl:binding name="getTaskStatusServiceSoapBinding" type="osaw:getTaskStatusServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="getTaskStatus">
@@ -193,12 +145,6 @@ You should have received a copy of the GNU Affero General Public License along w
 			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="deleteObjectServicePortType" binding="osaw:deleteObjectServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
-		</wsdl:port>
-		<wsdl:port name="createRelationServicePortType" binding="osaw:createRelationServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
-		</wsdl:port>
-		<wsdl:port name="deleteRelationServicePortType" binding="osaw:deleteRelationServiceSoapBinding">
 			<soap:address location="http://opensearchadmin.addi.dk/0.4"/>
 		</wsdl:port>
 		<wsdl:port name="getTaskStatusServicePortType" binding="osaw:getTaskStatusServiceSoapBinding">

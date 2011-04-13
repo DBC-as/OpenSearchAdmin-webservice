@@ -129,58 +129,6 @@ You should have received a copy of the GNU Affero General Public License along w
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="createRelationRequest">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Create relation request.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="osa:authentication" minOccurs="0"/>
-				<xs:element ref="osa:relationSubject"/>
-				<xs:element ref="osa:relation"/>
-				<xs:element ref="osa:relationObject"/>
-				<xs:element ref="osa:callback" minOccurs="0"/>
-				<xs:element ref="osa:outputType" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="createRelationResponse">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Create relation response.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:choice>
-				<xs:element ref="osa:status"/>
-				<xs:element ref="osa:error"/>
-			</xs:choice>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="deleteRelationRequest">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Delete relation request.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="osa:authentication" minOccurs="0"/>
-				<xs:element ref="osa:relationSubject"/>
-				<xs:element ref="osa:relation"/>
-				<xs:element ref="osa:relationObject"/>
-				<xs:element ref="osa:callback" minOccurs="0"/>
-				<xs:element ref="osa:outputType" minOccurs="0"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="deleteRelationResponse">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Delete relation response.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:choice>
-				<xs:element ref="osa:status"/>
-				<xs:element ref="osa:error"/>
-			</xs:choice>
-		</xs:complexType>
-	</xs:element>
 	<xs:element name="getTaskStatusRequest">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Get status of a task request</xs:documentation>
@@ -238,13 +186,10 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">Identifier of an object in the object repository.</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
-		  <xs:choice>
-			  <xs:sequence>
-					<xs:element ref="dkabm:record"/>
-					<xs:element ref="docbook:article" minOccurs="0"/>
-			  </xs:sequence>
-			  <xs:element ref="osa:theme"/>
-			</xs:choice>
+			<xs:sequence>
+			  <xs:element ref="dkabm:record"/>
+			  <xs:element ref="docbook:article" minOccurs="0"/>
+			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="objectIdentifier" type="xs:anyURI">
@@ -262,21 +207,6 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">Password (for authentication purposes)</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="relation" type="osa:relationType">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">The type of relation of this specific relation.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="relationObject" type="xs:anyURI">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Identifier of the object that the relation points to.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="relationSubject" type="xs:anyURI">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Identifier of the object that has/is to have the relation.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="status" type="osa:statusType">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Status of request</xs:documentation>
@@ -292,27 +222,6 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:documentation xml:lang="en">Status of a given task</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="theme">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">A theme that relates objects in the object repository in a thematic way.</xs:documentation>
-		</xs:annotation>
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="osa:themeIdentifier"/>
-				<xs:element ref="osa:themeName"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="themeIdentifier" type="xs:string">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">local identifier of a theme.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="themeName" type="xs:string">
-		<xs:annotation>
-			<xs:documentation xml:lang="en">Name describing a theme.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
 	<xs:element name="userIdAut" type="xs:string">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">User identifier (for authentication purposes)</xs:documentation>
@@ -322,12 +231,10 @@ You should have received a copy of the GNU Affero General Public License along w
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="authentication_error"/>
 			<xs:enumeration value="error_fetching_object_record"/>
-			<xs:enumeration value="error_fetching_theme_record"/>
 			<xs:enumeration value="error_fetching_taskpackage_number"/>
 			<xs:enumeration value="error_identifier_exists"/>
 			<xs:enumeration value="error_in_local_identifier"/>
 			<xs:enumeration value="error_in_object_identifier"/>
-			<xs:enumeration value="error_in_theme_identifier"/>
 			<xs:enumeration value="error_in_request"/>
 			<xs:enumeration value="error_parsing_fedora_result"/>
 			<xs:enumeration value="error_reaching_es_database"/>
@@ -336,13 +243,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:enumeration value="no_identifier_in_object_record"/>
 			<xs:enumeration value="no_record_in_object"/>
 			<xs:enumeration value="operation_not_allowed_on_object"/>
-			<xs:enumeration value="relation_cannot_be_created"/>
-			<xs:enumeration value="relation_cannot_be_deleted"/>
-			<xs:enumeration value="relation_not_found"/>
 			<xs:enumeration value="service_unavailable"/>
-			<xs:enumeration value="unknown_relationSubject"/>
-			<xs:enumeration value="unknown_relationObject"/>
-			<xs:enumeration value="unknown_relation"/>
 			<xs:enumeration value="unknown_agency"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -356,28 +257,12 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:enumeration value="php"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="relationType">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="rev:hasReview"/>
-			<xs:enumeration value="dbcaddi:hasCoverImage"/>
-			<xs:enumeration value="dbcaddi:hasUserCreatedContent"/>
-			<xs:enumeration value="dbcaddi:hasSoundClip"/>
-			<xs:enumeration value="dbcaddi:hasDemo"/>
-			<xs:enumeration value="dbcaddi:hasTrailer"/>
-			<xs:enumeration value="dbcaddi:hasTutorial"/>
-			<xs:enumeration value="dbcaddi:hasRingtone"/>
-			<xs:enumeration value="dbcaddi:hasThemeMember"/>
-			<xs:enumeration value="dbcaddi:isPartOfTheme"/>
-		</xs:restriction>
-	</xs:simpleType>
 	<xs:simpleType name="statusType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="object_created"/>
 			<xs:enumeration value="object_copied"/>
 			<xs:enumeration value="object_updated"/>
 			<xs:enumeration value="object_deleted"/>
-			<xs:enumeration value="relation_created"/>
-			<xs:enumeration value="relation_deleted"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="taskStatusType">
