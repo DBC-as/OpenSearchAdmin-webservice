@@ -1,7 +1,7 @@
 ; Inifile for opensearchadmin
 
 [setup]
-version = 0.5
+version = 1.0
 
 
 ; wsdl for service
@@ -27,8 +27,6 @@ soapAction[createObject] = createObjectRequest
 soapAction[copyObject] = copyObjectRequest
 soapAction[updateObject] = updateObjectRequest
 soapAction[deleteObject] = deleteObjectRequest
-soapAction[createRelation] = createRelationRequest
-soapAction[deleteRelation] = deleteRelationRequest
 soapAction[getTaskStatus] = getTaskStatusRequest
 
 ; prefixes and namespaces
@@ -190,18 +188,6 @@ action[updateObject][] = callback
 action[deleteObject][] = objectIdentifier
 action[deleteObject][] = outputType
 action[deleteObject][] = callback
-
-action[createRelation][] = relationSubject
-action[createRelation][] = relation
-action[createRelation][] = relationObject
-action[createRelation][] = outputType
-action[createRelation][] = callback
-
-action[deleteRelation][] = relationSubject
-action[deleteRelation][] = relation
-action[deleteRelation][] = relationObject
-action[deleteRelation][] = outputType
-action[deleteRelation][] = callback
 
 action[getTaskStatus][] = taskStatus
 action[getTaskStatus][] = outputType

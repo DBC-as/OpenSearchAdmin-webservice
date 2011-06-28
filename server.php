@@ -62,10 +62,6 @@ class openSearchAdmin extends webServiceServer {
   * Request:
   * - localIdentifier
   * - dkabm-record
-  * or
-  * - theme
-  * - - themeIdentifier
-  * - - themeName
   * 
   * Response:
   * - status - values: object_created
@@ -76,7 +72,7 @@ class openSearchAdmin extends webServiceServer {
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $cor->error->_value = 'authentication_error';
     else {
-      if ($param->object->_value->theme) {
+      if ($param->object->_value->theme) {  // this is obsolete
         if (!$this->is_local_identifier($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_in_theme_identifier';
         elseif (!$this->empty_theme($param->object->_value->theme->_value->themeIdentifier->_value))
@@ -96,10 +92,6 @@ class openSearchAdmin extends webServiceServer {
           $agency = $this->get_agency($oid_value);
           $rec_format = 'theme';
         }
-        //echo str_replace('?', '.', $xml);
-        //var_dump($ting);
-        //var_dump($ting->container->_value->record->_value);
-        //var_dump($param->object->_value->theme->_value); die();
       } else {
         if (!$this->is_local_identifier($param->localIdentifier->_value))
           $err = 'error_in_local_identifier';
@@ -232,10 +224,6 @@ class openSearchAdmin extends webServiceServer {
   * - localIdentifier
   * - objectIdentifier
   * - record
-  * or
-  * - theme
-  * - - themeIdentifier
-  * - - themeName
   * 
   * Response:
   * - status - values: object_updated
@@ -247,7 +235,7 @@ class openSearchAdmin extends webServiceServer {
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $uor->error->_value = 'authentication_error';
     else {
-      if ($param->object->_value->theme) {
+      if ($param->object->_value->theme) {  // this is obsolete
         if (!$this->is_local_identifier($param->object->_value->theme->_value->themeIdentifier->_value))
           $err = 'error_in_theme_identifier';
         elseif (!$this->object_exists($param->object->_value->theme->_value->themeIdentifier->_value))
@@ -265,10 +253,6 @@ class openSearchAdmin extends webServiceServer {
           $agency = $this->get_agency($param->object->_value->theme->_value->themeIdentifier->_value);
           $rec_format = 'theme';
         }
-        //echo $xml;
-        //var_dump($ting);
-        //var_dump($ting->container->_value->record->_value);
-        //var_dump($param->object->_value->theme->_value); die();
       } else {
         if (!$this->is_local_identifier($param->objectIdentifier->_value))
           $err = 'error_in_object_identifier';
@@ -370,7 +354,7 @@ class openSearchAdmin extends webServiceServer {
   * - status - values: relation_created
   *
   */
-  public function createRelation($param) {
+  public function obsolete_createRelation($param) {
     $crr = &$ret->createRelationResponse->_value;
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $crr->error->_value = 'authentication_error';
@@ -424,7 +408,7 @@ class openSearchAdmin extends webServiceServer {
   * - status - values: relation_deleted
   *
   */
-  public function deleteRelation($param) {
+  public function obsolete_deleteRelation($param) {
     $drr = &$ret->deleteRelationResponse->_value;
     if (!$this->aaa->has_right('opensearchadmin', 500))
       $drr->error->_value = 'authentication_error';
