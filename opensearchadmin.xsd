@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2010 rel. 2 (http://www.altova.com) by Dansk Bibliotekscenter A/S (Dansk Bibliotekscenter A/S) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:osa="http://oss.dbc.dk/ns/opensearchadmin" xmlns:dkabm="http://biblstandard.dk/abm/namespace/dkabm/" xmlns:docbook="http://docbook.org/ns/docbook" targetNamespace="http://oss.dbc.dk/ns/opensearchadmin" elementFormDefault="qualified">
 	<xs:annotation>
 		<xs:documentation xml:lang="en">Open Search Administrative Service</xs:documentation>
@@ -14,7 +13,7 @@ OpenSearch is distributed in the hope that it will be useful, but WITHOUT ANY WA
 You should have received a copy of the GNU Affero General Public License along with OpenSearch.  If not, see http://www.gnu.org/licenses/</xs:documentation>
 	</xs:annotation>
 	<xs:import namespace="http://biblstandard.dk/abm/namespace/dkabm/" schemaLocation="dkabm.xsd"/>
-	<xs:import namespace="http://docbook.org/ns/docbook" schemaLocation="docbook.xsd"/>	
+	<xs:import namespace="http://docbook.org/ns/docbook" schemaLocation="docbook.xsd"/>
 	<xs:element name="createObjectRequest">
 		<xs:annotation>
 			<xs:documentation xml:lang="en">Create object request. For creation of new data in the object respository.</xs:documentation>
@@ -23,7 +22,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:sequence>
 				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:localIdentifier"/>
-			  <xs:element ref="osa:object"/>
+				<xs:element ref="osa:object"/>
 				<xs:element ref="osa:callback" minOccurs="0"/>
 				<xs:element ref="osa:outputType" minOccurs="0"/>
 			</xs:sequence>
@@ -81,7 +80,7 @@ You should have received a copy of the GNU Affero General Public License along w
 			<xs:sequence>
 				<xs:element ref="osa:authentication" minOccurs="0"/>
 				<xs:element ref="osa:objectIdentifier"/>
-			  <xs:element ref="osa:object"/>
+				<xs:element ref="osa:object"/>
 				<xs:element ref="osa:callback" minOccurs="0"/>
 				<xs:element ref="osa:outputType" minOccurs="0"/>
 			</xs:sequence>
@@ -187,8 +186,8 @@ You should have received a copy of the GNU Affero General Public License along w
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-			  <xs:element ref="dkabm:record"/>
-			  <xs:element ref="docbook:article" minOccurs="0"/>
+				<xs:element ref="dkabm:record"/>
+				<xs:element ref="docbook:article" minOccurs="0"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
