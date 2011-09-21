@@ -77,7 +77,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="createObjectServiceSoapBinding" type="osaw:createObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="createObject">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/2.0"/>
 			<wsdl:input name="createObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -89,7 +89,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="copyObjectServiceSoapBinding" type="osaw:copyObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="copyObject">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/2.0"/>
 			<wsdl:input name="copyObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -101,7 +101,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="updateObjectServiceSoapBinding" type="osaw:updateObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="updateObject">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/2.0"/>
 			<wsdl:input name="updateObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -113,7 +113,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="deleteObjectServiceSoapBinding" type="osaw:deleteObjectServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="deleteObject">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/2.0"/>
 			<wsdl:input name="deleteObjectRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -125,7 +125,7 @@ You should have received a copy of the GNU Affero General Public License along w
 	<wsdl:binding name="getTaskStatusServiceSoapBinding" type="osaw:getTaskStatusServicePortType">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="getTaskStatus">
-			<soap:operation soapAction="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:operation soapAction="http://opensearchadmin.addi.dk/2.0"/>
 			<wsdl:input name="getTaskStatusRequest">
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -136,19 +136,19 @@ You should have received a copy of the GNU Affero General Public License along w
 	</wsdl:binding>
 	<wsdl:service name="openSearchAdmin">
 		<wsdl:port name="createObjectServicePortType" binding="osaw:createObjectServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:address location="http://opensearchadmin.addi.dk/2.0"/>
 		</wsdl:port>
 		<wsdl:port name="copyObjectServicePortType" binding="osaw:copyObjectServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:address location="http://opensearchadmin.addi.dk/2.0"/>
 		</wsdl:port>
 		<wsdl:port name="updateObjectServicePortType" binding="osaw:updateObjectServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:address location="http://opensearchadmin.addi.dk/2.0"/>
 		</wsdl:port>
 		<wsdl:port name="deleteObjectServicePortType" binding="osaw:deleteObjectServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:address location="http://opensearchadmin.addi.dk/2.0"/>
 		</wsdl:port>
 		<wsdl:port name="getTaskStatusServicePortType" binding="osaw:getTaskStatusServiceSoapBinding">
-			<soap:address location="http://opensearchadmin.addi.dk/1.0"/>
+			<soap:address location="http://opensearchadmin.addi.dk/2.0"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

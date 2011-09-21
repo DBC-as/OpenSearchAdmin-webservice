@@ -1,7 +1,7 @@
 ; Inifile for opensearchadmin
 
 [setup]
-version = 1.0
+version = 2.0
 
 
 ; wsdl for service
@@ -17,7 +17,7 @@ wsdl = opensearchadmin.wsdl
 ;validate[request] = opensearchadmin.xsd
 ;validate[response] = opensearchadmin.xsd
 ; validate record in createObject
-;validate[dkabm] = opensearchadmin.xsd
+;validate[dkabm] = dkabm.xsd
 ;validate[docbook] = docbook.xsd
 
 
@@ -30,7 +30,7 @@ soapAction[deleteObject] = deleteObjectRequest
 soapAction[getTaskStatus] = getTaskStatusRequest
 
 ; prefixes and namespaces
-xmlns[] = http://oss.dbc.dk/ns/opensearchadmin
+xmlns[osa] = http://oss.dbc.dk/ns/opensearchadmin
 xmlns[ting] = http://www.dbc.dk/ting
 xmlns[xs] = http://www.w3.org/2001/XMLSchema
 xmlns[xsi] = http://www.w3.org/2001/XMLSchema-instance
