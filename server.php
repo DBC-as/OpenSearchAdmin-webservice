@@ -262,9 +262,22 @@ class openSearchAdmin extends webServiceServer {
           $ting->container->_value->record = &$param->object->_value->record;
           $ting->container->_namespace = $this->xmlns['ting'];
           if ($this->validate['dkabm']) {
-            $xml = $this->objconvert->obj2xmlNS($ting->container->_value);
+            $val->record = &$param->object->_value->record;
+            $xml = $this->objconvert->obj2xmlNS($val);
+            unset($val);
             if (!$this->validate_xml($xml, $this->validate['dkabm']))
               $err = 'error_validating_record';
+          }
+          if ($param->object->_value->article) {
+            $ting->container->_value->article = &$param->object->_value->article;
+            $ting->container->_value->article->_namespace = $this->xmlns['docbook'];
+            if ($this->validate['docbook']) {
+              $val->article = &$param->object->_value->article;
+              $xml = $this->objconvert->obj2xmlNS($val);
+              unset($val);
+              if (!$this->validate_xml($xml, $this->validate['docbook']))
+                $err = 'error_validating_record';
+            }
           }
   // make/change ac-identifier to new one
           if (empty($err)) {
