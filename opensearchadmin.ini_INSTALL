@@ -54,22 +54,6 @@ fedora_API_M = http://someserver.dbc.dk:8080/fedora/services/management
 fedora_user = fedorauser
 fedora_passwd = fedorapasswd
 
-; ES database
-es_credentials = foo/bar@foobar.dbc.dk
-
-; list of valid es_format, used as format in xml_control
-es_format[put-agency-here][theme] = theme
-es_format[put-agency-here][dkabm] = pg
-
-; list of valid agencies and their corresponding databaseName
-es_databaseName[put-agency-here] = and-corresponding-databaseName-here
-
-es_userid = 3
-es_creator = openSearchAdmin
-es_action = 1
-es_schema = addi
-es_elementSetName = esn
-
 ; valid relations and their reverse relation
 ; namespace should be set in xmlns above
 relation["dbcaddi:hasReview"] = "dbcaddi:isReviewOf"
@@ -97,8 +81,6 @@ xml_create_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:so
 
 xml_delete_relation = <?xml version=&quot;1.0&quot; ?><soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;><soapenv:Body><typ:purgeRelationship xmlns:typ=&quot;http://www.fedora.info/definitions/1/0/types/&quot;><pid>%s</pid><relationship>%s</relationship><object>%s</object><isLiteral>true</isLiteral><datatype xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:nil=&quot;true&quot;/></typ:purgeRelationship></soapenv:Body></soapenv:Envelope>
 
-xml_control = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><es:referencedata><es:info submitter=&quot;%s&quot; language=&quot;%s&quot; format=&quot;%s&quot;></es:info></es:referencedata>
-
 ; path to xml-examples
 xmldir = ./xml
 
@@ -119,6 +101,26 @@ verbose = WARNING+ERROR+FATAL+STAT+TIMER+TRACE+DEBUG+Z3950+OCI
 
 ; format for automatic timer dump %s is the soap-action used
 dump_timer = SearchAdmin(%s)
+
+
+[es_database]
+; ES database
+credentials = foo/bar@foobar.dbc.dk
+
+; list of valid es_format, used as format in xml_control
+format[put-agency-here][theme] = theme
+format[put-agency-here][dkabm] = pg
+
+; list of valid agencies and their corresponding databaseName
+databaseName[put-agency-here] = and-corresponding-databaseName-here
+
+userid = 3
+creator = openSearchAdmin
+action = 1
+schema = addi
+elementSetName = esn
+
+xml_control = <?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?><es:referencedata><es:info submitter=&quot;%s&quot; language=&quot;%s&quot; format=&quot;%s&quot;></es:info></es:referencedata>
 
 
 [aaa]
